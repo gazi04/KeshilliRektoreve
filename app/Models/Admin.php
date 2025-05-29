@@ -30,6 +30,6 @@ class Admin extends Model implements AuthenticatableContract
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'isActive' => 'boolean',
     ];
 }
