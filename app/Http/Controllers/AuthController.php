@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Authentication\LoginRequest;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Traits\AuthHelper;
 use Illuminate\Contracts\View\View;
@@ -15,12 +16,21 @@ class AuthController extends Controller
 
     public function showLoginPage(): View
     {
-        return view('Auth.Login');
+        return view('Auth.login');
     }
 
     public function login(LoginRequest $request): RedirectResponse
     {
         $credentials = $request->only('username', 'password');
+
+        $isActiveAdmin = Admin::where('username', $credentials['username'])
+            ->value('isActive');
+
+        if (! $isActiveAdmin) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
+        }
 
         /** @var SessionGuard $guard */
         $guard = Auth::guard('admin');
@@ -30,7 +40,9 @@ class AuthController extends Controller
             return redirect()->route('admin.index');
         }
 
-        return back()->withErrors('Kyçja dështoi, emri i përdoruesit ose fjalëkalimi janë të pasaktë.');
+        return redirect()->
+            route('loginPage')
+            ->withErrors('Kyçja dështoi, emri i përdoruesit ose fjalëkalimi janë të pasaktë.');
     }
 
     public function logout(Request $request): RedirectResponse

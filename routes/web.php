@@ -11,7 +11,8 @@ Route::get('/', function () {
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginPage')->name('loginPage');
-    Route::post('/authenticate', 'login')->name('authenticate');
+    Route::post('/authenticate', 'login')->name('login');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 Route::middleware(IsLogged::class)->name('admin.')->group(function() {
