@@ -1,7 +1,5 @@
 # Rectors' Council Web Application
 
-This is a Laravel project designed for [briefly describe the project's purpose or what it does].
-
 ## Getting Started
 
 Follow these steps to get your project up and running on your local machine.
