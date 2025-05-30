@@ -4,12 +4,12 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ActivateAdminRequest extends FormRequest
+class AdminIdValidationRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:admins,id'
+            'id' => 'required|exists:admins,id',
         ];
     }
 

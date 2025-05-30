@@ -52,4 +52,5 @@ class CreateAdminRequest extends FormRequest
             'password.min' => 'Fjalëkalimi duhet të ketë të paktën 8 karaktere.',
             'password.confirmed' => 'Konfirmimi i fjalëkalimit nuk përputhet.',
         ];
-    }}
+    }
+}

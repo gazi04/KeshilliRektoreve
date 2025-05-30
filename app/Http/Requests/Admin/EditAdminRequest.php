@@ -17,7 +17,7 @@ class EditAdminRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique('admins')->ignore($this->id)
+                Rule::unique('admins')->ignore($this->id),
             ],
             'address' => 'required|string|max:255',
             'password' => 'nullable|string|min:8|confirmed',
