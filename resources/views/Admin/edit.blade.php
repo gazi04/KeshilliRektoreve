@@ -1,189 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Admin: {{ $admin->name }} {{ $admin->lastname }}</title>
-    <style>
-        /* General body and container styles (reused from create/index) */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            max-width: 600px; /* Adjusted max-width for form page */
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #0056b3;
-            margin-bottom: 20px;
-        }
+@extends('layouts.app')
 
-        /* Form specific styles */
-        form div {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: calc(100% - 22px); /* Account for padding and border */
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-        }
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }
+@section('title', 'Edit Admin: ' . $admin->name . ' ' . $admin->lastname)
 
-        /* Button styling */
-        .form-buttons {
-            display: flex;
-            justify-content: space-between; /* Space out buttons */
-            margin-top: 20px;
-        }
-        .submit-button, .back-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none; /* For the back button which is an anchor */
-            display: inline-block; /* For the back button */
-            text-align: center;
-        }
-        .submit-button {
-            background-color: #007bff;
-            color: white;
-            transition: background-color 0.2s ease;
-        }
-        .submit-button:hover {
-            background-color: #0056b3;
-        }
-        .back-button {
-            background-color: #6c757d; /* Grey */
-            color: white;
-            transition: background-color 0.2s ease;
-        }
-        .back-button:hover {
-            background-color: #5a6268;
-        }
+@section('content')
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">Edit Admin: {{ $admin->name }} {{ $admin->lastname }}</h1>
 
-        /* Validation and success/error message styling */
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .alert ul {
-            margin: 0;
-            padding-left: 20px;
-            list-style-type: disc;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Edit Admin: {{ $admin->name }} {{ $admin->lastname }}</h1>
-
-        @if (session('success'))
-            <div class="alert alert-success">
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                <p>{{ session('error') }}</p>
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <h3>Validation Errors:</h3>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('admin.update') }}" method="POST">
-            @csrf
-            @method('PATCH')
-
-            <input type="hidden" name="id" value="{{ $admin->id }}">
-
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="{{ old('name', $admin->name) }}" required>
-            </div>
-
-            <div>
-                <label for="lastname">Lastname:</label>
-                <input type="text" id="lastname" name="lastname" value="{{ old('lastname', $admin->lastname) }}" required>
-            </div>
-
-            <div>
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" value="{{ old('phoneNumber', $admin->phoneNumber) }}" required>
-            </div>
-
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ old('email', $admin->email) }}" required>
-            </div>
-
-            <div>
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" value="{{ old('address', $admin->address ?? '') }}" required>
-            </div>
-
-            <div>
-                <label for="password">New Password (optional):</label>
-                <input type="password" id="password" name="password">
-            </div>
-
-            <div>
-                <label for="password_confirmation">Confirm New Password:</label>
-                <input type="password" id="password_confirmation" name="password_confirmation">
-            </div>
-
-            <div class="form-buttons">
-                <a href="{{ route('admin.index') }}" class="back-button">Back to Admin List</a>
-                <button type="submit" class="submit-button">Update Admin</button>
-            </div>
-        </form>
+    {{-- Success/Error Messages --}}
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</body>
-</html>
+    @endif
+
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <h3 class="alert-heading">Validation Errors:</h3>
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <form action="{{ route('admin.update') }}" method="POST" class="needs-validation" novalidate>
+        @csrf
+        @method('PATCH')
+
+        <input type="hidden" name="id" value="{{ $admin->id }}">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $admin->name) }}" required>
+            @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Lastname:</label>
+            <input type="text" class="form-control @error('lastname') is-invalid @enderror" id="lastname" name="lastname" value="{{ old('lastname', $admin->lastname) }}" required>
+            @error('lastname')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input type="text" class="form-control @error('phoneNumber') is-invalid @enderror" id="phoneNumber" name="phoneNumber" value="{{ old('phoneNumber', $admin->phoneNumber) }}" required>
+            @error('phoneNumber')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $admin->email) }}" required>
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address', $admin->address ?? '') }}" required>
+            @error('address')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">New Password (optional):</label>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label">Confirm New Password:</label>
+            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ route('admin.index') }}" class="btn btn-secondary">Back to Admin List</a>
+            <button type="submit" class="btn btn-primary">Update Admin</button>
+        </div>
+    </form>
+</div>
+@endsection
