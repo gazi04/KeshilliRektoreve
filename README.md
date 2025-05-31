@@ -20,7 +20,7 @@ Before you begin, ensure you have the following installed:
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/gazi04/KeshilliRektoreve.git](https://github.com/gazi04/KeshilliRektoreve.git)
+    git clone https://github.com/gazi04/KeshilliRektoreve.git
     cd KeshilliRektoreve
     ```
 
@@ -79,7 +79,15 @@ Before you begin, ensure you have the following installed:
     php artisan migrate
     ```
 
-    *If you have seeders (dummy data) you want to run, you can do so after migrations:*
+---
+
+### Populating the Database with Dummy Data (Seeders)
+
+For testing and development purposes, you can populate your database with dummy data using Laravel seeders.
+
+* **Run all seeders:**
+
+    To execute all your registered seeders (typically defined in `database/seeders/DatabaseSeeder.php`), use:
 
     ```bash
     php artisan db:seed
@@ -114,4 +122,3 @@ Once you've completed the installation steps, you can start the Laravel developm
 php artisan serve
 # OR
 composer run dev
-```
