@@ -80,7 +80,7 @@ Before you begin, ensure you have the following installed:
 
 6. **Populating the Database with Dummy Data (Seeders)**
 
-For testing and development purposes, you can populate your database with dummy data using Laravel seeders.
+    For testing and development purposes, you can populate your database with dummy data using Laravel seeders.
 
 * **Run all seeders:**
 
