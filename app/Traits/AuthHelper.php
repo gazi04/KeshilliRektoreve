@@ -24,6 +24,6 @@ trait AuthHelper
     {
         $loggedUser = Auth::guard('admin')->user();
 
-        return $loggedUser->employeeID;
+        return $loggedUser->id;
     }
 }
