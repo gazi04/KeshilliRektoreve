@@ -15,6 +15,16 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
 });
 
-Route::middleware(IsLogged::class)->name('admin.')->group(function() {
+Route::middleware(IsLogged::class)->name('admin.')->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('index');
+});
+
+Route::prefix('members')->name('members.')->group(function () {
+    Route::get('/', [MembersController::class, 'index'])->name('index');
+    Route::get('/create', [MembersController::class, 'create'])->name('create');
+    Route::post('/', [MembersController::class, 'store'])->name('store');
+    Route::get('/{member}', [MembersController::class, 'show'])->name('show');
+    Route::get('/{member}/edit', [MembersController::class, 'edit'])->name('edit');
+    Route::put('/{member}', [MembersController::class, 'update'])->name('update');
+    Route::delete('/{member}', [MembersController::class, 'destroy'])->name('destroy');
 });
