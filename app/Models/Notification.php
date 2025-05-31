@@ -18,7 +18,10 @@ class Notification extends Model
         'notificationType',
     ];
 
-    protected $casts = [
-        'datetime' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'datetime' => 'datetime',
+        ];
+    }
 }

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Models\Admin;
-use Illuminate\Http\Request;
 use App\Traits\AuthHelper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         return redirect()->
             route('loginPage')
-            ->withErrors('Kyçja dështoi, emri i përdoruesit ose fjalëkalimi janë të pasaktë.');
+                ->withErrors('Kyçja dështoi, emri i përdoruesit ose fjalëkalimi janë të pasaktë.');
     }
 
     public function logout(Request $request): RedirectResponse

@@ -22,7 +22,7 @@ class ConferenceFactory extends Factory
         ];
     }
 
-        public function withDocuments(int $count = 1): static
+    public function withDocuments(int $count = 1): static
     {
         return $this->afterCreating(function (\App\Models\Conference $conference) use ($count) {
             \App\Models\Document::factory()

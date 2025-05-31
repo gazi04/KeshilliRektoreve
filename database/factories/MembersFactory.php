@@ -24,7 +24,7 @@ class MembersFactory extends Factory
             'Board Member',
             'Committee Head',
             'Project Manager',
-            'Advisor'
+            'Advisor',
         ];
 
         $titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];

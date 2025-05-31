@@ -33,7 +33,7 @@ class AdminController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $admins->where(function ($query) use ($search) {
+            $admins->where(function ($query) use ($search): void {
                 $query->where('name', 'like', '%'.$search.'%')
                     ->orWhere('lastname', 'like', '%'.$search.'%')
                     ->orWhere('email', 'like', '%'.$search.'%')
@@ -53,18 +53,11 @@ class AdminController extends Controller
         }
 
         if ($request->filled('order_by')) {
-            switch ($request->input('order_by')) {
-                case 'name_asc':
-                    $admins->orderBy('name', 'asc');
-                    break;
-                case 'name_desc':
-                    $admins->orderBy('name', 'desc');
-                    break;
-                case 'latest':
-                default:
-                    $admins->orderBy('id', 'desc');
-                    break;
-            }
+            match ($request->input('order_by')) {
+                'name_asc' => $admins->orderBy('name', 'asc'),
+                'name_desc' => $admins->orderBy('name', 'desc'),
+                default => $admins->orderBy('id', 'desc'),
+            };
         } else {
             $admins->orderBy('id', 'desc');
         }
@@ -93,7 +86,7 @@ class AdminController extends Controller
             'password',
         ]);
 
-        $admin = Admin::create([
+        Admin::create([
             'name' => $validated['name'],
             'lastname' => $validated['lastname'],
             'phoneNumber' => $validated['phoneNumber'],
@@ -126,7 +119,7 @@ class AdminController extends Controller
 
             return view('Admin.edit', ['admin' => $admin]);
 
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException) {
             return redirect()->route('admin.index')->with('error', 'Regjistri i të dhënave të përdoruesit të dhënë nuk mund të gjendet në bazën e të dhënave.');
         }
     }

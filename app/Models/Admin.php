@@ -31,7 +31,10 @@ class Admin extends Model implements AuthenticatableContract
         'password',
     ];
 
-    protected $casts = [
-        'isActive' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'isActive' => 'boolean',
+        ];
+    }
 }

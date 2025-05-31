@@ -9,13 +9,13 @@ class CreateAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'phoneNumber' => 'required|string|max:20',
-            'email' => 'required|email|unique:users,email',
-            'address' => 'required|string|max:255',
-            'username' => 'required|string|max:15|unique:users,username',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'phoneNumber' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'address' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:15', 'unique:users,username'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 

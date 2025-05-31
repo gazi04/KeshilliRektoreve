@@ -21,18 +21,18 @@ class NotificationFactory extends Factory
             'Lajm' => [
                 'Njoftim i rëndësishëm',
                 'Informacion i ri',
-                'Lajme të freskëta'
+                'Lajme të freskëta',
             ],
             'Konkurs' => [
                 'Hapet konkursi i ri',
                 'Mundësi për aplikim',
-                'Fondet e reja të disponueshme'
+                'Fondet e reja të disponueshme',
             ],
             'Komunikatë' => [
                 'Njoftim zyrtar',
                 'Komunikatë e rëndësishme',
-                'Informacion për publikun'
-            ]
+                'Informacion për publikun',
+            ],
         ];
 
         $type = $this->faker->randomElement($notificationTypes);
@@ -51,7 +51,7 @@ class NotificationFactory extends Factory
         $descriptions = [
             'Lajm' => "Informojmë publikun për {$this->faker->sentence(6)}",
             'Konkurs' => "Aftësoheni për të aplikuar në konkursin {$this->faker->word()} që mbulon {$this->faker->sentence(4)}",
-            'Komunikatë' => "Njoftohet se {$this->faker->sentence(10)}"
+            'Komunikatë' => "Njoftohet se {$this->faker->sentence(10)}",
         ];
 
         return $descriptions[$type];
