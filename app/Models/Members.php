@@ -19,7 +19,7 @@ class Members extends Model
     ];
 
     protected $casts = [
-        'order_nr' => 'integer',
+        'orderNr' => 'integer',
     ];
 
 }
