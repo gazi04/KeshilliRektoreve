@@ -15,7 +15,13 @@ use Illuminate\Support\Facades\Log;
 
 class ConferenceController extends Controller
 {
-    public function index(Request $request): View
+    /**
+     * Display a listing of the conferences.
+     *
+     * @param Request $request
+     * @return View|RedirectResponse
+     */
+    public function index(Request $request): View|RedirectResponse
     {
         try {
             $conferences = Conference::select([
