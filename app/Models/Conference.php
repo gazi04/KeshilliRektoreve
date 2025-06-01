@@ -19,6 +19,7 @@ class Conference extends Model
     {
         return $this->hasMany(Document::class);
     }
+
     protected function casts(): array
     {
         return [
