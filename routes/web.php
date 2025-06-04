@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\MembersController;
 use App\Http\Middleware\IsLogged;
 use Illuminate\Support\Facades\Route;
 
@@ -56,14 +57,20 @@ Route::middleware(IsLogged::class)->group(function () {
 
         Route::post('/download', 'download')->name('download');
     });
-});
 
-Route::prefix('members')->name('members.')->group(function () {
-    Route::get('/', [MembersController::class, 'index'])->name('index');
-    Route::get('/create', [MembersController::class, 'create'])->name('create');
-    Route::post('/', [MembersController::class, 'store'])->name('store');
-    Route::get('/{member}', [MembersController::class, 'show'])->name('show');
-    Route::get('/{member}/edit', [MembersController::class, 'edit'])->name('edit');
-    Route::put('/{member}', [MembersController::class, 'update'])->name('update');
-    Route::delete('/{member}', [MembersController::class, 'destroy'])->name('destroy');
+    Route::prefix('/members')->controller(MembersController::class)->name('members.')->group(function () {
+        Route::get('/', 'index')->name('index');
+
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+
+        Route::get('/{member}', 'show')->name('show');
+
+        Route::get('/{member}/edit', 'edit')->name('edit');
+        Route::patch('/{member}', 'update')->name('update');
+
+        Route::delete('/{member}', 'destroy')->name('destroy');
+
+        Route::get('/{member}/image', 'showImage')->name('image');
+    });
 });
