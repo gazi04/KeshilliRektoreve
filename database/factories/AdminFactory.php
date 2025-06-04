@@ -42,6 +42,7 @@ class AdminFactory extends Factory
             'isActive' => false,
         ]);
     }
+
     public function withPassword(string $password): static
     {
         return $this->state(fn (array $attributes) => [

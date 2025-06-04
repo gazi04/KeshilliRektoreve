@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model implements AuthenticatableContract
 {
     /** @use HasFactory<\Database\Factories\AdminFactory> */
-    use HasFactory, Authenticatable;
+    use Authenticatable, HasFactory;
 
     protected $table = 'admins';
+
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'name',
@@ -22,14 +24,17 @@ class Admin extends Model implements AuthenticatableContract
         'address',
         'isActive',
         'username',
-        'password'
+        'password',
     ];
 
     protected $hidden = [
         'password',
     ];
 
-    protected $casts = [
-        'isActive' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'isActive' => 'boolean',
+        ];
+    }
 }

@@ -9,7 +9,8 @@ class Members extends Model
 {
     /** @use HasFactory<\Database\Factories\MembersFactory> */
     use HasFactory;
-        protected $fillable = [
+
+    protected $fillable = [
         'title',
         'name',
         'position',
@@ -18,8 +19,10 @@ class Members extends Model
         'imageUrl',
     ];
 
-    protected $casts = [
-        'order_nr' => 'integer',
-    ];
-
+    protected function casts(): array
+    {
+        return [
+            'orderNr' => 'integer',
+        ];
+    }
 }

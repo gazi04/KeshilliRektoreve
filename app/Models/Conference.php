@@ -15,12 +15,15 @@ class Conference extends Model
         'date',
     ];
 
-    protected $casts = [
-        'date' => 'datetime',
-    ];
-
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
     }
 }

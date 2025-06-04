@@ -18,7 +18,7 @@ Before you begin, ensure you have the following installed:
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/gazi04/KeshilliRektoreve.git](https://github.com/gazi04/KeshilliRektoreve.git)
+    git clone https://github.com/gazi04/KeshilliRektoreve.git
     cd KeshilliRektoreve
     ```
 
@@ -77,13 +77,20 @@ Before you begin, ensure you have the following installed:
     php artisan migrate
     ```
 
-    *If you have seeders (dummy data) you want to run, you can do so after migrations:*
+
+6. **Populating the Database with Dummy Data (Seeders)**
+
+    For testing and development purposes, you can populate your database with dummy data using Laravel seeders.
+
+* **Run all seeders:**
+
+    To execute all your registered seeders (typically defined in `database/seeders/DatabaseSeeder.php`), use:
 
     ```bash
     php artisan db:seed
     ```
 
-6.  **Install Node.js dependencies (if applicable, for frontend assets):**
+7.  **Install Node.js dependencies (if applicable, for frontend assets):**
 
     If your project includes frontend assets compiled with npm or Yarn, you'll need to run:
 
@@ -93,7 +100,7 @@ Before you begin, ensure you have the following installed:
     yarn install
     ```
 
-7.  **Compile frontend assets (if applicable):**
+8.  **Compile frontend assets (if applicable):**
 
     After installing Node.js dependencies, compile your assets:
 
@@ -112,4 +119,3 @@ Once you've completed the installation steps, you can start the Laravel developm
 php artisan serve
 # OR
 composer run dev
-```
