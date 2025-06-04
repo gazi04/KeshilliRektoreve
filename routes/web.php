@@ -74,3 +74,12 @@ Route::middleware(IsLogged::class)->group(function () {
         Route::get('/{member}/image', 'showImage')->name('image');
     });
 });
+
+Route::prefix('notifications')->group(function () {
+    Route::get('/', [NotificationsController::class, 'index'])->name('notifications.index');
+    Route::get('/create', [NotificationsController::class, 'create'])->name('notifications.createNotification');
+    Route::post('/', [NotificationsController::class, 'store'])->name('notifications.store');
+    Route::get('/{notification}/edit', [NotificationsController::class, 'edit'])->name('notifications.editNotification');
+    Route::put('/{notification}', [NotificationsController::class, 'update'])->name('notifications.update');
+    Route::delete('/{notification}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
+});
