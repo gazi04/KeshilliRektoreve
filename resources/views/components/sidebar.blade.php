@@ -1,15 +1,15 @@
 {{-- This component can be included for both desktop sidebar and offcanvas sidebar --}}
 @php
-    // Prefix IDs to ensure uniqueness between desktop and offcanvas menus
-    $prefix = $isOffcanvas ? 'offcanvas-' : '';
+// Prefix IDs to ensure uniqueness between desktop and offcanvas menus
+$prefix = $isOffcanvas ? 'offcanvas-' : '';
 @endphp
 
 {{-- Brand/Logo for desktop sidebar (Offcanvas has its own header) --}}
 @unless($isOffcanvas)
-    <a href="{{ route('admin.index') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-primary text-decoration-none">
-        <span class="fs-5 fw-bold">[Logo] Rectors' Council</span>
-    </a>
-    <hr>
+<a href="{{ route('admin.index') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-primary text-decoration-none">
+    <span class="fs-5 fw-bold">[Logo] Rectors' Council</span>
+</a>
+<hr>
 @endunless
 
 <ul class="nav nav-pills flex-column mb-auto">
@@ -33,15 +33,28 @@
         </div>
     </li>
 
-    {{-- Council Members - Using # as placeholder for now --}}
+    {{-- Council Members - Now with functional links and active states --}}
     <li class="nav-item mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}members-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ $prefix }}members-collapse"
+            aria-expanded="{{ request()->routeIs('members.*') ? 'true' : 'false' }}">
             <i class="bi bi-person-fill me-2"></i> Council Members
         </button>
-        <div class="collapse" id="{{ $prefix }}members-collapse">
+        <div class="collapse {{ request()->routeIs('members.*') ? 'show' : '' }}" id="{{ $prefix }}members-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link link-dark rounded">All Members</a></li>
-                <li><a href="#" class="nav-link link-dark rounded">Add Member</a></li>
+                {{-- Link to the list of all members --}}
+                <li>
+                    <a href="{{ route('members.index') }}" class="nav-link link-dark rounded {{ request()->routeIs('members.index', 'members.edit', 'members.show') ? 'active' : '' }}">
+                        All Members
+                    </a>
+                </li>
+                {{-- Link to the form for adding a new member --}}
+                <li>
+                    <a href="{{ route('members.create') }}" class="nav-link link-dark rounded {{ request()->routeIs('members.create') ? 'active' : '' }}">
+                        Add Member
+                    </a>
+                </li>
             </ul>
         </div>
     </li>
@@ -71,25 +84,25 @@
     </li>
 
     {{-- Documents - Using # as placeholder for now --}}
-        <li class="nav-item mb-1">
+    <li class="nav-item mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
-                data-bs-toggle="collapse"
-                data-bs-target="#{{ $prefix }}documents-collapse"
-                aria-expanded="{{ request()->routeIs('document.*') ? 'true' : 'false' }}">
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ $prefix }}documents-collapse"
+            aria-expanded="{{ request()->routeIs('document.*') ? 'true' : 'false' }}">
             <i class="bi bi-file-earmark-text me-2"></i> Documents
         </button>
         <div class="collapse {{ request()->routeIs('document.*') ? 'show' : '' }}" id="{{ $prefix }}documents-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 <li>
                     <a href="{{ route('document.index') }}"
-                       class="nav-link link-dark rounded {{ request()->routeIs('document.index', 'document.edit') ? 'active' : '' }}">
-                       All Documents
+                        class="nav-link link-dark rounded {{ request()->routeIs('document.index', 'document.edit') ? 'active' : '' }}">
+                        All Documents
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('document.create') }}"
-                       class="nav-link link-dark rounded {{ request()->routeIs('document.create') ? 'active' : '' }}">
-                       Upload Document
+                        class="nav-link link-dark rounded {{ request()->routeIs('document.create') ? 'active' : '' }}">
+                        Upload Document
                     </a>
                 </li>
             </ul>

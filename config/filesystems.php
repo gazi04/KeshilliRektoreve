@@ -49,9 +49,15 @@ return [
 
         'private_documents' => [
             'driver' => 'local',
-            'root' => storage_path('app/private_documents'),
+            'root' => storage_path('app/private/documents'),
             'visibility' => 'private',
             'throw' => false,
+        ],
+
+        'private_members' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/members'),
+            'visibility' => 'private',
         ],
 
         's3' => [
