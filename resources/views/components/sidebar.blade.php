@@ -71,28 +71,45 @@
     </li>
 
     {{-- Documents - Using # as placeholder for now --}}
-    <li class="nav-item mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}documents-collapse" aria-expanded="false">
+        <li class="nav-item mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
+                data-bs-toggle="collapse"
+                data-bs-target="#{{ $prefix }}documents-collapse"
+                aria-expanded="{{ request()->routeIs('document.*') ? 'true' : 'false' }}">
             <i class="bi bi-file-earmark-text me-2"></i> Documents
         </button>
-        <div class="collapse" id="{{ $prefix }}documents-collapse">
+        <div class="collapse {{ request()->routeIs('document.*') ? 'show' : '' }}" id="{{ $prefix }}documents-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link link-dark rounded">All Documents</a></li>
-                <li><a href="#" class="nav-link link-dark rounded">Upload Document</a></li>
+                <li>
+                    <a href="{{ route('document.index') }}"
+                       class="nav-link link-dark rounded {{ request()->routeIs('document.index', 'document.edit') ? 'active' : '' }}">
+                       All Documents
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('document.create') }}"
+                       class="nav-link link-dark rounded {{ request()->routeIs('document.create') ? 'active' : '' }}">
+                       Upload Document
+                    </a>
+                </li>
             </ul>
         </div>
     </li>
 
-    {{-- Conferences - Using # as placeholder for now --}}
+    {{-- Conferences --}}
     <li class="nav-item mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}conferences-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}conferences-collapse" aria-expanded="{{ request()->routeIs('conference.*') ? 'true' : 'false' }}">
             <i class="bi bi-calendar-event me-2"></i> Conferences
         </button>
-        <div class="collapse" id="{{ $prefix }}conferences-collapse">
+        <div class="collapse {{ request()->routeIs('conference.*') ? 'show' : '' }}" id="{{ $prefix }}conferences-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link link-dark rounded">Upcoming Conferences</a></li>
-                <li><a href="#" class="nav-link link-dark rounded">Past Conferences</a></li>
-                <li><a href="#" class="nav-link link-dark rounded">Add Conference</a></li>
+                {{-- Changed to 'conference.index' as that's your main listing --}}
+                <li><a href="{{ route('conference.index') }}" class="nav-link link-dark rounded {{ request()->routeIs('conference.index', 'conference.edit') ? 'active' : '' }}">All Conferences</a></li>
+                {{-- Assuming upcoming/past might be filters on the index page --}}
+                <li><a href="{{ route('conference.index', ['status' => 'upcoming']) }}" class="nav-link link-dark rounded {{ request()->routeIs('conference.index') && request('status') == 'upcoming' ? 'active' : '' }}">Upcoming Conferences</a></li>
+                <li><a href="{{ route('conference.index', ['status' => 'past']) }}" class="nav-link link-dark rounded {{ request()->routeIs('conference.index') && request('status') == 'past' ? 'active' : '' }}">Past Conferences</a></li>
+                {{-- Changed to 'conference.create' --}}
+                <li><a href="{{ route('conference.create') }}" class="nav-link link-dark rounded {{ request()->routeIs('conference.create') ? 'active' : '' }}">Add Conference</a></li>
             </ul>
         </div>
     </li>

@@ -1,24 +1,23 @@
 <?php
 
 use App\Models\Admin;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 
 uses(RefreshDatabase::class);
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->admin = Admin::factory()->create();
 });
 
-it('shows login page', function () {
+it('shows login page', function (): void {
     $response = $this->get(route('loginPage'));
 
     $response->assertOk();
     $response->assertViewIs('Auth.login');
 });
 
-it('logs in admin with correct credentials', function () {
+it('logs in admin with correct credentials', function (): void {
     $response = $this->post(route('login'), [
         'username' => $this->admin->username,
         'password' => 'password',
@@ -28,7 +27,7 @@ it('logs in admin with correct credentials', function () {
     $this->assertAuthenticatedAs($this->admin, 'admin');
 });
 
-it('fails to login with incorrect credentials', function () {
+it('fails to login with incorrect credentials', function (): void {
     $response = $this->post(route('login'), [
         'username' => 'testadmin',
         'password' => 'wrongpassword',
@@ -39,7 +38,7 @@ it('fails to login with incorrect credentials', function () {
     $this->assertGuest('admin');
 });
 
-it('fails to login with non-existent username', function () {
+it('fails to login with non-existent username', function (): void {
     $response = $this->post(route('login'), [
         'username' => 'nonexistent',
         'password' => 'password123',
@@ -50,13 +49,13 @@ it('fails to login with non-existent username', function () {
     $this->assertGuest('admin');
 });
 
-it('requires username and password', function () {
+it('requires username and password', function (): void {
     $response = $this->post(route('login'), []);
 
     $response->assertSessionHasErrors(['username', 'password']);
 });
 
-it('validates username is not too long', function () {
+it('validates username is not too long', function (): void {
     $response = $this->post(route('login'), [
         'username' => str_repeat('a', 16), // 16 characters (max is 15)
         'password' => 'password123',
@@ -65,7 +64,7 @@ it('validates username is not too long', function () {
     $response->assertSessionHasErrors(['username']);
 });
 
-it('validates password is at least 8 characters', function () {
+it('validates password is at least 8 characters', function (): void {
     $response = $this->post(route('login'), [
         'username' => 'testadmin',
         'password' => 'short', // 5 characters
@@ -74,7 +73,7 @@ it('validates password is at least 8 characters', function () {
     $response->assertSessionHasErrors(['password']);
 });
 
-it('cannot login if account is inactive', function () {
+it('cannot login if account is inactive', function (): void {
     $inactiveAdmin = Admin::factory()->create([
         'username' => 'inactive',
         'password' => Hash::make('password123'),
@@ -91,7 +90,7 @@ it('cannot login if account is inactive', function () {
     $this->assertGuest('admin');
 });
 
-it('logs out admin and redirects to home page', function () {
+it('logs out admin and redirects to home page', function (): void {
     $response = $this->actingAs($this->admin, 'admin')
         ->post(route('logout'));
 

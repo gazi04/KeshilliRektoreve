@@ -40,7 +40,7 @@ class DocumentFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'type' => 'agenda',
-                'title' => 'Agenda: ' . $this->faker->words(3, true),
+                'title' => 'Agenda: '.$this->faker->words(3, true),
             ];
         });
     }
@@ -50,7 +50,7 @@ class DocumentFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'type' => 'minutes',
-                'title' => 'Minutes: ' . $this->faker->words(3, true),
+                'title' => 'Minutes: '.$this->faker->words(3, true),
             ];
         });
     }

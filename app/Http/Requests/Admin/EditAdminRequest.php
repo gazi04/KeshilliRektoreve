@@ -10,17 +10,17 @@ class EditAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:admins,id',
-            'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'phoneNumber' => 'required|string|max:20',
+            'id' => ['required', 'exists:admins,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'phoneNumber' => ['required', 'string', 'max:20'],
             'email' => [
                 'required',
                 'email',
                 Rule::unique('admins')->ignore($this->id),
             ],
-            'address' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed',
+            'address' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
     }
 
