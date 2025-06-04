@@ -1,16 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Members;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class MembersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $members = Members::orderBy('orderNr', 'asc')->paginate(10);
+        $search = $request->input('search');
+
+        $members = Members::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")
+                ->orWhere('position', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+        })
+            ->orderBy('orderNr', 'asc')
+            ->paginate(10);
+
         return view('members.index', compact('members'));
     }
 
@@ -47,14 +56,13 @@ class MembersController extends Controller
 
         return redirect()->route('members.index')
             ->with('success', 'Anëtari u krijua me sukses!');
-
-
     }
 
     public function show(Members $member)
     {
         return view('members.showMembers', compact('member'));
     }
+
 
     public function edit(Members $member)
     {
