@@ -93,7 +93,7 @@ class ConferenceController extends Controller
         try {
             $validated = $request->only('id');
 
-            $conference = Conference::select(['id', 'title', 'date'])
+            $conference = Conference::select(['id', 'title', 'date', 'isActive'])
                 ->findOrFail($validated['id']);
 
             return view('Conference.edit', ['conference' => $conference]);
@@ -111,7 +111,7 @@ class ConferenceController extends Controller
     public function update(EditConferenceRequest $request): View|RedirectResponse
     {
         try {
-            $validated = $request->only(['id', 'title', 'date']);
+            $validated = $request->only(['id', 'title', 'date', 'isActive']);
 
             $conference = Conference::findOrFail($validated['id']);
 

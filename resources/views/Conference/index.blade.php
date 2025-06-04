@@ -55,6 +55,8 @@
                 <option value="all">All Conferences</option>
                 <option value="upcoming">Upcoming</option>
                 <option value="past">Past</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
             </select>
             <select name="order_by" x-model="orderBy" class="form-select me-2">
                 <option value="latest">Order by Latest Date</option>

@@ -36,24 +36,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
+
                     {{-- Update Form --}}
-                    {{-- Note: Your web.php for update uses Route::patch('/udpate', 'update').
-                    It has a typo ('udpate' instead of 'update') and does not use route model binding.
-                    For this view, I'm assuming you will fix the typo in web.php to '/update'
-                    and potentially switch to route model binding for consistency (e.g., /conference/{conference}).
-                    For now, I'll pass the ID as a hidden field, matching your edit route's current request handling.
-                    --}}
                     <form action="{{ route('conference.update') }}" method="POST">
                         @csrf
-                        @method('PATCH') {{-- Use PATCH method for updates --}}
+                        @method('PATCH')
 
-                        {{-- Hidden ID field for the update --}}
                         <input type="hidden" name="id" value="{{ $conference->id }}">
 
-                        {{-- Title Field --}}
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            {{-- old('title', $conference->title) will prioritize old input on validation failure --}}
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $conference->title) }}" required autofocus>
                             @error('title')
                             <div class="invalid-feedback">
@@ -72,6 +64,11 @@
                                 {{ $message }}
                             </div>
                             @enderror
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="isActive" name="isActive" value="1" {{ old('isActive', $conference->isActive) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="isActive">Conference is Active (Visible to Public)</label>
                         </div>
 
                         {{-- Submit and Cancel Buttons --}}
