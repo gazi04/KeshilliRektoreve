@@ -161,13 +161,16 @@ class ConferenceController extends Controller
             $conference->save();
 
             $statusMessage = $conference->isActive ? 'aktivizua' : 'çaktivizua';
+
             return redirect()->route('conference.index')
                 ->with('success', 'Konferenca u '.$statusMessage.' me sukses!');
         } catch (ModelNotFoundException $e) {
             Log::warning('Conference not found for status toggle: '.$e->getMessage());
+
             return redirect()->route('conference.index')->with('error', 'Konferenca nuk u gjet për të ndryshuar statusin.');
         } catch (Exception $e) {
             Log::error('Error toggling conference status: '.$e->getMessage());
+
             return redirect()->route('conference.index')->with('error', 'Nuk mund të ndryshohej statusi i konferencës.');
         }
     }
