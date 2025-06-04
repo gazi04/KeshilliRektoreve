@@ -22,6 +22,7 @@ class ConferenceController extends Controller
                 'id',
                 'title',
                 'date',
+                'isActive',
             ]);
 
             if ($request->filled('search')) {
@@ -35,6 +36,10 @@ class ConferenceController extends Controller
                     $conferences->where('date', '>=', now());
                 } elseif ($status === 'past') {
                     $conferences->where('date', '<', now());
+                } elseif ($status === 'active') {
+                    $conferences->where('isActive', true);
+                } elseif ($status === 'inactive') {
+                    $conferences->where('isActive', false);
                 }
             }
 
@@ -70,6 +75,7 @@ class ConferenceController extends Controller
     {
         try {
             $validated = $request->only(['title', 'date']);
+            $validated['isActive'] = true;
 
             Conference::create($validated);
 
@@ -124,7 +130,6 @@ class ConferenceController extends Controller
         }
     }
 
-    /* TODO- PYETE SHASIVARIN A KA NEVOJ PER FSHIRJEN E KONFERENCAVE, NESE ATEHERE DUHEN TE FSHIN NE MENYRE AUTOMATIKE EDHE DOKUMENTETE E ASAJ KONFERENCE */
     public function destroy(ConferenceIdValidationRequest $request): View|RedirectResponse
     {
         try {
@@ -143,6 +148,27 @@ class ConferenceController extends Controller
             Log::error('Error deleting conference: '.$e->getMessage());
 
             return view('errors.custom-error', ['message' => 'Nuk mund të fshihej konferenca.']);
+        }
+    }
+
+    public function toggleStatus(ConferenceIdValidationRequest $request): RedirectResponse
+    {
+        try {
+            $validated = $request->only('id');
+            $conference = Conference::findOrFail($validated['id']);
+
+            $conference->isActive = ! $conference->isActive;
+            $conference->save();
+
+            $statusMessage = $conference->isActive ? 'aktivizua' : 'çaktivizua';
+            return redirect()->route('conference.index')
+                ->with('success', 'Konferenca u '.$statusMessage.' me sukses!');
+        } catch (ModelNotFoundException $e) {
+            Log::warning('Conference not found for status toggle: '.$e->getMessage());
+            return redirect()->route('conference.index')->with('error', 'Konferenca nuk u gjet për të ndryshuar statusin.');
+        } catch (Exception $e) {
+            Log::error('Error toggling conference status: '.$e->getMessage());
+            return redirect()->route('conference.index')->with('error', 'Nuk mund të ndryshohej statusi i konferencës.');
         }
     }
 }
