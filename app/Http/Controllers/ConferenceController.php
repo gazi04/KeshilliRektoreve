@@ -15,12 +15,6 @@ use Illuminate\Support\Facades\Log;
 
 class ConferenceController extends Controller
 {
-    /**
-     * Display a listing of the conferences.
-     *
-     * @param Request $request
-     * @return View|RedirectResponse
-     */
     public function index(Request $request): View|RedirectResponse
     {
         try {
@@ -28,6 +22,7 @@ class ConferenceController extends Controller
                 'id',
                 'title',
                 'date',
+                'isActive',
             ]);
 
             if ($request->filled('search')) {
@@ -41,6 +36,10 @@ class ConferenceController extends Controller
                     $conferences->where('date', '>=', now());
                 } elseif ($status === 'past') {
                     $conferences->where('date', '<', now());
+                } elseif ($status === 'active') {
+                    $conferences->where('isActive', true);
+                } elseif ($status === 'inactive') {
+                    $conferences->where('isActive', false);
                 }
             }
 
@@ -63,10 +62,7 @@ class ConferenceController extends Controller
         } catch (Exception $e) {
             Log::error('Error fetching conferences: '.$e->getMessage());
 
-            // In case of an error on the index page, we might not want to redirect,
-            // but rather show an error message on the page or a blank page with an error.
-            // For the purpose of this request, adhering to the redirect requirement:
-            return redirect()->route('conference.index')->with('error', 'Could not retrieve conferences: '.$e->getMessage());
+            return view('errors.custom-error', ['message' => 'Nuk mund të merreshin konferencat.']);
         }
     }
 
@@ -75,10 +71,11 @@ class ConferenceController extends Controller
         return view('Conference.create');
     }
 
-    public function store(CreateConferenceRequest $request): RedirectResponse
+    public function store(CreateConferenceRequest $request): View|RedirectResponse
     {
         try {
             $validated = $request->only(['title', 'date']);
+            $validated['isActive'] = true;
 
             Conference::create($validated);
 
@@ -87,7 +84,7 @@ class ConferenceController extends Controller
         } catch (Exception $e) {
             Log::error('Error storing conference: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Could not create conference: '.$e->getMessage());
+            return view('errors.custom-error', ['message' => 'Nuk mund të krijohej konferenca.']);
         }
     }
 
@@ -96,28 +93,26 @@ class ConferenceController extends Controller
         try {
             $validated = $request->only('id');
 
-            // Using findOrFail for better error handling if the ID does not exist
-            $conference = Conference::select(['id', 'title', 'date'])
+            $conference = Conference::select(['id', 'title', 'date', 'isActive'])
                 ->findOrFail($validated['id']);
 
             return view('Conference.edit', ['conference' => $conference]);
         } catch (ModelNotFoundException $e) {
             Log::warning('Conference not found for editing: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Conference not found.');
+            return view('errors.custom-error', ['message' => 'Konferenca nuk u gjet për përditësim.']);
         } catch (Exception $e) {
             Log::error('Error retrieving conference for editing: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Could not retrieve conference for editing: '.$e->getMessage());
+            return view('errors.custom-error', ['message' => 'Nuk mund të merrej konferenca për përditësim.']);
         }
     }
 
-    public function update(EditConferenceRequest $request): RedirectResponse
+    public function update(EditConferenceRequest $request): View|RedirectResponse
     {
         try {
-            $validated = $request->only(['id', 'title', 'date']);
+            $validated = $request->only(['id', 'title', 'date', 'isActive']);
 
-            // Using findOrFail for better error handling if the ID does not exist
             $conference = Conference::findOrFail($validated['id']);
 
             $conference->update($validated);
@@ -127,16 +122,15 @@ class ConferenceController extends Controller
         } catch (ModelNotFoundException $e) {
             Log::warning('Conference not found for update: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Conference not found.');
+            return view('errors.custom-error', ['message' => 'Konferenca nuk u gjet për përditësim.']);
         } catch (Exception $e) {
             Log::error('Error updating conference: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Could not update conference: '.$e->getMessage());
+            return view('errors.custom-error', ['message' => 'Nuk mund të përditësohej konferenca.']);
         }
     }
 
-    /* TODO- PYETE SHASIVARIN A KA NEVOJ PER FSHIRJEN E KONFERENCAVE, NESE ATEHERE DUHEN TE FSHIN NE MENYRE AUTOMATIKE EDHE DOKUMENTETE E ASAJ KONFERENCE */
-    public function destroy(ConferenceIdValidationRequest $request): RedirectResponse
+    public function destroy(ConferenceIdValidationRequest $request): View|RedirectResponse
     {
         try {
             $validated = $request->only('id');
@@ -149,11 +143,32 @@ class ConferenceController extends Controller
         } catch (ModelNotFoundException $e) {
             Log::warning('Conference not found for deletion: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Conference not found.');
+            return view('errors.custom-error', ['message' => 'Konferenca nuk u gjet për fshirje.']);
         } catch (Exception $e) {
             Log::error('Error deleting conference: '.$e->getMessage());
 
-            return redirect()->route('conference.index')->with('error', 'Could not delete conference: '.$e->getMessage());
+            return view('errors.custom-error', ['message' => 'Nuk mund të fshihej konferenca.']);
+        }
+    }
+
+    public function toggleStatus(ConferenceIdValidationRequest $request): RedirectResponse
+    {
+        try {
+            $validated = $request->only('id');
+            $conference = Conference::findOrFail($validated['id']);
+
+            $conference->isActive = ! $conference->isActive;
+            $conference->save();
+
+            $statusMessage = $conference->isActive ? 'aktivizua' : 'çaktivizua';
+            return redirect()->route('conference.index')
+                ->with('success', 'Konferenca u '.$statusMessage.' me sukses!');
+        } catch (ModelNotFoundException $e) {
+            Log::warning('Conference not found for status toggle: '.$e->getMessage());
+            return redirect()->route('conference.index')->with('error', 'Konferenca nuk u gjet për të ndryshuar statusin.');
+        } catch (Exception $e) {
+            Log::error('Error toggling conference status: '.$e->getMessage());
+            return redirect()->route('conference.index')->with('error', 'Nuk mund të ndryshohej statusi i konferencës.');
         }
     }
 }
