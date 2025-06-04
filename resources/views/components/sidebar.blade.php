@@ -33,7 +33,7 @@ $prefix = $isOffcanvas ? 'offcanvas-' : '';
         </div>
     </li>
 
-    {{-- Council Members - Now with functional links and active states --}}
+    {{-- Council Members --}}
     <li class="nav-item mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
             data-bs-toggle="collapse"
@@ -59,31 +59,32 @@ $prefix = $isOffcanvas ? 'offcanvas-' : '';
         </div>
     </li>
 
-    {{-- Notifications - Using # as placeholder for now --}}
+    {{-- Notifications --}}
     <li class="nav-item mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}notifications-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ $prefix }}notifications-collapse"
+            aria-expanded="{{ request()->routeIs('notifications.*') ? 'true' : 'false' }}">
             <i class="bi bi-bell me-2"></i> Notifications
         </button>
-        <div class="collapse" id="{{ $prefix }}notifications-collapse">
+        <div class="collapse {{ request()->routeIs('notifications.*') ? 'show' : '' }}" id="{{ $prefix }}notifications-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link link-dark rounded">All Notifications</a></li>
                 <li>
-                    <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark ms-3" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}create-notification-collapse" aria-expanded="false">
+                    <a href="{{ route('notifications.index') }}" class="nav-link link-dark rounded {{ request()->routeIs('notifications.index', 'notifications.edit') ? 'active' : '' }}">
+                        All Notifications
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('notifications.create') }}" class="nav-link link-dark rounded {{ request()->routeIs('notifications.create') ? 'active' : '' }}">
                         Create Notification
-                    </button>
-                    <div class="collapse" id="{{ $prefix }}create-notification-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="nav-link link-dark rounded">News</a></li>
-                            <li><a href="#" class="nav-link link-dark rounded">Competition</a></li>
-                            <li><a href="#" class="nav-link link-dark rounded">Press Release</a></li>
-                        </ul>
-                    </div>
+                    </a>
                 </li>
             </ul>
         </div>
     </li>
 
-    {{-- Documents - Using # as placeholder for now --}}
+
+    {{-- Documents --}}
     <li class="nav-item mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
             data-bs-toggle="collapse"

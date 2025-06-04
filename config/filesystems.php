@@ -58,6 +58,14 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/private/members'),
             'visibility' => 'private',
+            'throw' => false,
+        ],
+
+        'private_notifications' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/notifications'),
+            'visibility' => 'private',
+            'throw' => false,
         ],
 
         's3' => [
