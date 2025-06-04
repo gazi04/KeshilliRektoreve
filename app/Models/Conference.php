@@ -13,6 +13,7 @@ class Conference extends Model
     protected $fillable = [
         'title',
         'date',
+        'isActive',
     ];
 
     public function documents()
@@ -24,6 +25,7 @@ class Conference extends Model
     {
         return [
             'date' => 'datetime',
+            'isActive' => 'boolean',
         ];
     }
 }

@@ -17,6 +17,7 @@ class EditConferenceRequest extends FormRequest
             'id' => ['required', 'exists:conferences,id'],
             'title' => ['required', 'string', 'max:255'],
             'date' => ['required', 'date'],
+            'isActive' => ['required', 'boolean'],
         ];
     }
 
@@ -37,6 +38,9 @@ class EditConferenceRequest extends FormRequest
 
             'date.required' => 'Data është e detyrueshme.',
             'date.date' => 'Data nuk është një format i vlefshëm i datës.',
+
+            'isActive.required' => 'Statusi aktiv është i detyrueshëm.',
+            'isActive.boolean' => 'Statusi aktiv duhet të jetë \'true\' ose \'false\'.',
         ];
     }
 }

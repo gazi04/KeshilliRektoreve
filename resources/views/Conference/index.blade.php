@@ -55,6 +55,8 @@
                 <option value="all">All Conferences</option>
                 <option value="upcoming">Upcoming</option>
                 <option value="past">Past</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
             </select>
             <select name="order_by" x-model="orderBy" class="form-select me-2">
                 <option value="latest">Order by Latest Date</option>
@@ -74,6 +76,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -83,10 +86,27 @@
                     <td>{{ $conference->title }}</td>
                     <td>{{ $conference->date->format('Y-m-d H:i') }}</td>
                     <td>
+                        @if ($conference->isActive)
+                        <span class="badge bg-success">Active</span>
+                        @else
+                        <span class="badge bg-secondary">Inactive</span>
+                        @endif
+                    </td>
+                    <td>
                         <div class="d-flex gap-2">
                             <form action="{{ route('conference.edit') }}" method="GET">
                                 <input type="hidden" name="id" value="{{ $conference->id }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                            </form>
+
+                            <form action="{{ route('conference.toggleStatus') }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="id" value="{{ $conference->id }}">
+                                <button type="submit" class="btn btn-sm {{ $conference->isActive ? 'btn-warning' : 'btn-success' }}"
+                                    onclick="return confirm('Are you sure you want to {{ $conference->isActive ? 'deactivate' : 'activate' }} this conference?');">
+                                    {{ $conference->isActive ? 'Deactivate' : 'Activate' }}
+                                </button>
                             </form>
                         </div>
                     </td>

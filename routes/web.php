@@ -39,6 +39,8 @@ Route::middleware(IsLogged::class)->group(function () {
 
         Route::get('/edit', 'edit')->name('edit');
         Route::patch('/udpate', 'update')->name('update');
+
+        Route::patch('/toggle-status', 'toggleStatus')->name('toggleStatus');
     });
 
     Route::prefix('/documents')->controller(DocumentController::class)->name('document.')->group(function () {
