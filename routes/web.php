@@ -55,3 +55,13 @@ Route::middleware(IsLogged::class)->group(function () {
         Route::post('/download', 'download')->name('download');
     });
 });
+
+Route::prefix('members')->name('members.')->group(function () {
+    Route::get('/', [MembersController::class, 'index'])->name('index');
+    Route::get('/create', [MembersController::class, 'create'])->name('create');
+    Route::post('/', [MembersController::class, 'store'])->name('store');
+    Route::get('/{member}', [MembersController::class, 'show'])->name('show');
+    Route::get('/{member}/edit', [MembersController::class, 'edit'])->name('edit');
+    Route::put('/{member}', [MembersController::class, 'update'])->name('update');
+    Route::delete('/{member}', [MembersController::class, 'destroy'])->name('destroy');
+});
