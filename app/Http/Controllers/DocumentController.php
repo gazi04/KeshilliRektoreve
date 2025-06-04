@@ -21,7 +21,7 @@ class DocumentController extends Controller
     public function index(Request $request): View|RedirectResponse
     {
         try {
-            $documents = Document::with('conferences');
+            $documents = Document::with('conference');
 
             if ($request->filled('search')) {
                 $search = $request->input('search');

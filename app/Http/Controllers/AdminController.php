@@ -134,11 +134,11 @@ class AdminController extends Controller
         } catch (ModelNotFoundException $e) {
             Log::warning('Admin not found for editing (ID: '.$request->input('id').'): '.$e->getMessage());
 
-            return view('errors.custom-error', ['message' => 'Administratori nuk u gjet për redaktim.']);
+            return view('errors.custom-error', ['message' => 'Administratori nuk u gjet për përditësim.']);
         } catch (Exception $e) {
             Log::error('Error retrieving administrator for editing (ID: '.$request->input('id').'): '.$e->getMessage());
 
-            return view('errors.custom-error', ['message' => 'Nuk mund të merrej administratori për redaktim.']);
+            return view('errors.custom-error', ['message' => 'Nuk mund të merrej administratori për përditësim.']);
         }
     }
 
