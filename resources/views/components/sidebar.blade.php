@@ -71,14 +71,27 @@
     </li>
 
     {{-- Documents - Using # as placeholder for now --}}
-    <li class="nav-item mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark" data-bs-toggle="collapse" data-bs-target="#{{ $prefix }}documents-collapse" aria-expanded="false">
+        <li class="nav-item mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link link-dark"
+                data-bs-toggle="collapse"
+                data-bs-target="#{{ $prefix }}documents-collapse"
+                aria-expanded="{{ request()->routeIs('document.*') ? 'true' : 'false' }}">
             <i class="bi bi-file-earmark-text me-2"></i> Documents
         </button>
-        <div class="collapse" id="{{ $prefix }}documents-collapse">
+        <div class="collapse {{ request()->routeIs('document.*') ? 'show' : '' }}" id="{{ $prefix }}documents-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link link-dark rounded">All Documents</a></li>
-                <li><a href="#" class="nav-link link-dark rounded">Upload Document</a></li>
+                <li>
+                    <a href="{{ route('document.index') }}"
+                       class="nav-link link-dark rounded {{ request()->routeIs('document.index', 'document.edit') ? 'active' : '' }}">
+                       All Documents
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('document.create') }}"
+                       class="nav-link link-dark rounded {{ request()->routeIs('document.create') ? 'active' : '' }}">
+                       Upload Document
+                    </a>
+                </li>
             </ul>
         </div>
     </li>
