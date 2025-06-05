@@ -12,8 +12,8 @@ $prefix = $isOffcanvas ? 'offcanvas-' : '';
 <hr>
 @endunless
 
-<ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item mb-1">
+<ul class="nav nav-pills flex-column align-items-start mb-auto">
+    <li class="nav-item mb-1 w-100">
         {{-- Dashboard link now points to admin.index as a placeholder --}}
         <a href="{{ route('admin.index') }}" class="nav-link link-dark {{ request()->routeIs('admin.index') ? 'active' : '' }}" aria-current="page">
             <i class="bi bi-speedometer2 me-2"></i> Dashboard

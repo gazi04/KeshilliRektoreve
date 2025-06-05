@@ -79,7 +79,7 @@
                             @enderror
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center gap-4">
                             <button type="submit" class="btn btn-primary">Update Document</button>
                             <a href="{{ route('document.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>

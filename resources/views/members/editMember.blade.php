@@ -80,7 +80,7 @@
                 @endif
             </div>
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-center gap-4">
                 <button type="submit" class="btn btn-primary">Update Member</button>
                 <a href="{{ route('members.index') }}" class="btn btn-secondary">Cancel</a>
             </div>

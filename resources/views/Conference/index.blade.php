@@ -34,7 +34,6 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <a href="{{ route('conference.create') }}" class="btn btn-success mb-2 mb-md-0">Add Conference</a>
 
         {{-- Search and Filter Form --}}
         <form action="{{ route('conference.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
@@ -49,12 +48,20 @@
                 this.$el.submit();
             }
         }">
-            <input type="text" name="search" x-model="search" placeholder="Search by title..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
-            {{-- Search Button --}}
+        <div class="w-100 d-flex flex-wrap gap-2 mb-2 mb-md-0">
+                    <a href="{{ route('conference.create') }}" class="btn btn-success mb-2 mb-md-0">Add Conference</a>
+
+             <input type="text" name="search" x-model="search" placeholder="Search by title..." class="form-control me-2 flex-grow-1 w-50">
+           <div class="d-flex gap-2">
+             {{-- Search Button --}}
             <button type="submit" class="btn btn-outline-primary">Search</button>
             @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
             <a href="{{ route('conference.index') }}" class="btn btn-outline-secondary">Reset</a>
             @endif
+           </div>
+            
+        </div>
+           
 
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Conferences</option>

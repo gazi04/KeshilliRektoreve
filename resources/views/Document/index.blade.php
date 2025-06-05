@@ -34,7 +34,6 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <a href="{{ route('document.create') }}" class="btn btn-success mb-2 mb-md-0">Add Document</a>
 
         {{-- Search and Order By Form --}}
         <form action="{{ route('document.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
@@ -47,15 +46,21 @@
             this.$el.submit();
             }
             }">
-            <input type="text" name="search" x-model="search" placeholder="Search by title or conference..." class="form-control me-2 flex-grow-1" style="max-width: 250px;">
-
+            <div class="w-100 d-flex flex-wrap gap-2 mb-2 mb-md-0">     
+                   <a href="{{ route('document.create') }}" class="btn btn-success mb-2 mb-md-0">Add Document</a>
+                   <input type="text" name="search" x-model="search" placeholder="Search by title or conference..." class="form-control me-2 flex-grow-1 w-50"> 
+            <div class="d-flex gap-2">
             {{-- Search Button --}}
             <button type="submit" class="btn btn-outline-primary">Search</button>
-
+ 
             {{-- Reset Button --}}
             @if (request()->filled('search') || request()->filled('order_by'))
             <a href="{{ route('document.index') }}" class="btn btn-outline-secondary">Reset</a>
             @endif
+            </div> 
+              
+            </div>
+           
 
             {{-- Order By Dropdown --}}
             <select name="order_by" x-model="orderBy" class="form-select me-2">

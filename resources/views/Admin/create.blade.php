@@ -90,7 +90,7 @@
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
 
-        <div class="d-flex justify-content-between mt-4">
+        <div class="d-flex align-items-center justify-content-between mt-4 gap-4">
             <a href="{{ route('admin.index') }}" class="btn btn-secondary">Back to Admin List</a>
             <button type="submit" class="btn btn-primary">Create Admin</button>
         </div>

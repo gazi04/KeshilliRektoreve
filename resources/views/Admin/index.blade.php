@@ -20,11 +20,11 @@
     </div>
     @endif
 
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <a href="{{ route('admin.create') }}" class="btn btn-success mb-2 mb-md-0">Create Admin</a>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap flex-column">
+       
 
         {{-- Search and Filter Form --}}
-        <form action="{{ route('admin.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
+        <form action="{{ route('admin.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end w-100" x-data="{
             search: '{{ request('search') }}',
             status: '{{ request('status') }}',
             orderBy: '{{ request('order_by') }}',
@@ -36,12 +36,17 @@
                 this.$el.submit();
             }
             }">
-            <input type="text" name="search" x-model="search" placeholder="Search admins..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
-
-            @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
+            <div class="w-100 d-flex flex-wrap gap-2 mb-2 mb-md-0">
+                 <a href="{{ route('admin.create') }}" class="btn btn-success mb-2 mb-md-0" >Create Admin</a>
+                <input type="text" name="search" x-model="search" placeholder="Search admins..." class="form-control me-2 flex-grow-1 w-50" >
+            <div class="d-flex gap-2"><button type="submit" class="btn btn-outline-primary">Search</button>
+             @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
             <a href="{{ route('admin.index') }}" class="btn btn-outline-secondary">Reset</a>
-            @endif
+            @endif</div>
+                
+            </div>
+            
+           
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Statuses</option>
                 <option value="active">Active</option>

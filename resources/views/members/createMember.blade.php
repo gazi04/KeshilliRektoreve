@@ -72,7 +72,7 @@
                 <div class="form-text">Accepted formats: JPEG, PNG, JPG, GIF. Max size: 2MB.</div>
             </div>
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between gap-4 align-items-center">
                 <button type="submit" class="btn btn-primary">Add Member</button>
                 <a href="{{ route('members.index') }}" class="btn btn-secondary">Cancel</a>
             </div>

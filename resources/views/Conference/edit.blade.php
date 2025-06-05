@@ -72,7 +72,7 @@
                         </div>
 
                         {{-- Submit and Cancel Buttons --}}
-                        <div class="d-flex justify-content-between mt-4">
+                        <div class="d-flex justify-content-between align-items-center mt-4 gap-4">
                             <button type="submit" class="btn btn-success">Update Conference</button>
                             <a href="{{ route('conference.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>

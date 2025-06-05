@@ -34,7 +34,6 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap"> {{-- Added flex-wrap --}}
-        <a href="{{ route('members.create') }}" class="btn btn-success mb-2 mb-md-0">Add New Member</a> {{-- Added mb-2 mb-md-0 for spacing --}}
 
         {{-- Search and Filter Form --}}
         <form action="{{ route('members.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
@@ -47,12 +46,19 @@
                 this.$el.submit();
             }
         }">
-            <input type="text" name="search" x-model="search" placeholder="Search members..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+        <div class="w-100 d-flex flex-wrap gap-2 mb-2 mb-md-0">  
+                  <a href="{{ route('members.create') }}" class="btn btn-success mb-2 mb-md-0 mx-1">Add New Member</a> {{-- Added mb-2 mb-md-0 mx-1 for spacing --}}
+
+             <input type="text" name="search" x-model="search" placeholder="Search members..." class="form-control me-2 flex-grow-1 w-50">
+             <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
 
             @if (request()->filled('search') || request()->filled('order_by'))
             <a href="{{ route('members.index') }}" class="btn btn-outline-secondary">Reset</a>
-            @endif
+            @endif </div>
+            
+        </div>
+           
             {{-- Sorting dropdown --}}
             <select name="order_by" x-model="orderBy" class="form-select me-2">
                 <option value="latest">Order by Latest</option>

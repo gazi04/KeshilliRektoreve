@@ -34,9 +34,7 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <a href="{{ route('notifications.create') }}" class="btn btn-success mb-2 mb-md-0">
-            Add New
-        </a>
+        
 
         {{-- Search and Filter Form --}}
         <form action="{{ route('notifications.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
@@ -51,12 +49,20 @@
                 this.$el.submit();
             }
         }">
-            <input type="text" name="search" x-model="search" placeholder="Search notifications..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+        <div class="w-100 d-flex flex-wrap gap-2 mb-2 mb-md-0">
+            <a href="{{ route('notifications.create') }}" class="btn btn-success mb-2 mb-md-0">
+            Add New
+        </a>
+             <input type="text" name="search" x-model="search" placeholder="Search notifications..." class="form-control me-2 flex-grow-1 w-50">
+            <div class="d-flex gap-2">
+                 <button type="submit" class="btn btn-outline-primary">Search</button>
 
             @if (request()->filled('search') || request()->filled('type') || request()->filled('order_by'))
             <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary">Reset</a>
-            @endif
+            @endif</div>
+            
+        </div>
+           
 
             {{-- Type Filter --}}
             <select name="type" x-model="type" class="form-select me-2">
@@ -78,7 +84,7 @@
         </form>
     </div>
 
-    {{-- Tabs (now for visual display, filtering handled by form) --}}
+    <!-- {{-- Tabs (now for visual display, filtering handled by form) --}}
     <ul class="nav nav-tabs mb-4 d-none d-md-flex">
         <li class="nav-item">
             <a class="nav-link {{ !request('type') ? 'active' : '' }}" href="{{ route('notifications.index', array_merge(request()->except('type'), ['type' => ''])) }}">
@@ -93,7 +99,7 @@
             </a>
         </li>
         @endforeach
-    </ul>
+    </ul> -->
 
 
     @if($notifications->isEmpty())
