@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Këshilli Rektorëve')
+@section('title', 'Këshilli Rektorëve - Administratorët')
 
 @section('content')
 <div class="container mt-4">
@@ -52,6 +52,12 @@
                 <option value="latest">Order by Latest</option>
                 <option value="name_asc">Name (A-Z)</option>
                 <option value="name_desc">Name (Z-A)</option>
+                <option value="namelast_asc">Last Name (A-Z)</option>
+                <option value="namelast_desc">Last Name (Z-A)</option>
+                <option value="email_asc">Email (A-Z)</option>
+                <option value="email_desc">Email (Z-A)</option>
+                <option value="username_asc">Username (A-Z)</option>
+                <option value="username_desc">Username (Z-A)</option>
             </select>
         </form>
     </div>
@@ -68,12 +74,48 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
+                        <th>
+                            <a href="{{ route('admin.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'name_asc' ? 'name_desc' : 'name_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'name_asc')
+                                    <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'name_desc')
+                                    <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Name
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('admin.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'lastname_asc' ? 'lastname_desc' : 'lastname_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'lastname_asc')
+                                    <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'lastname_desc')
+                                    <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Last Name
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('admin.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'email_asc' ? 'email_desc' : 'email_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'email_asc')
+                                    <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'email_desc')
+                                    <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Email
+                            </a>
+                        </th>
                         <th>Phone Number</th>
                         <th>Address</th>
-                        <th>Username</th>
+                        <th>
+                            <a href="{{ route('admin.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'username_asc' ? 'username_desc' : 'username_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'username_asc')
+                                    <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'username_desc')
+                                    <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Username
+                            </a>
+                        </th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>

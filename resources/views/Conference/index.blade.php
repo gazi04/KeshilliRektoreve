@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Conferences')
+@section('title', 'Këshilli Rektorëve - Konferencat')
 
 @section('content')
 <div class="container mt-4">
@@ -84,7 +84,16 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>
+                            <a href="{{ route('conference.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'title_asc' ? 'title_desc' : 'title_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'title_asc')
+                                <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'title_desc')
+                                <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Title
+                            </a>
+                        </th>
                         <th>Date</th>
                         <th>Status</th>
                         <th>Action</th>

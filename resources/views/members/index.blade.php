@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manage Members')
+@section('title', 'Këshilli Rektorëve - Anëtarët')
 
 @section('content')
 <div class="container mt-4">
@@ -60,7 +60,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'orderNr', 'direction' => ($sortField == 'orderNr' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-white text-decoration-none">
+                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'orderNr', 'direction' => ($sortField == 'orderNr' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-black text-decoration-none">
                                 Order #
                                 @if ($sortField == 'orderNr')
                                 <i class="fas fa-sort-{{ $sortDirection }}"></i>
@@ -71,7 +71,7 @@
                         </th>
                         <th>Image</th>
                         <th>
-                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'title', 'direction' => ($sortField == 'title' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-white text-decoration-none">
+                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'title', 'direction' => ($sortField == 'title' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-black text-decoration-none">
                                 Title
                                 @if ($sortField == 'title')
                                 <i class="fas fa-sort-{{ $sortDirection }}"></i>
@@ -81,7 +81,7 @@
                             </a>
                         </th>
                         <th>
-                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'name', 'direction' => ($sortField == 'name' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-white text-decoration-none">
+                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'name', 'direction' => ($sortField == 'name' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-black text-decoration-none">
                                 Name
                                 @if ($sortField == 'name')
                                 <i class="fas fa-sort-{{ $sortDirection }}"></i>
@@ -91,7 +91,7 @@
                             </a>
                         </th>
                         <th>
-                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'position', 'direction' => ($sortField == 'position' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-white text-decoration-none">
+                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'position', 'direction' => ($sortField == 'position' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-black text-decoration-none">
                                 Position
                                 @if ($sortField == 'position')
                                 <i class="fas fa-sort-{{ $sortDirection }}"></i>
@@ -101,7 +101,7 @@
                             </a>
                         </th>
                         <th>
-                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'email', 'direction' => ($sortField == 'email' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-white text-decoration-none">
+                            <a href="{{ route('members.index', array_merge(request()->query(), ['sort' => 'email', 'direction' => ($sortField == 'email' && $sortDirection == 'asc' ? 'desc' : 'asc')])) }}" class="text-black text-decoration-none">
                                 Email
                                 @if ($sortField == 'email')
                                 <i class="fas fa-sort-{{ $sortDirection }}"></i>

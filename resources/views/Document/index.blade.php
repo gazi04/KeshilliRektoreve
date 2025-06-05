@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Documents')
+@section('title', 'Këshilli Rektorëve - Dokumentet')
 
 @section('content')
 <div class="container mt-4">
@@ -54,6 +54,8 @@
                 <option value="oldest" {{ request('order_by') == 'oldest' ? 'selected' : '' }}>Order by Oldest Date</option>
                 <option value="title_asc" {{ request('order_by') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
                 <option value="title_desc" {{ request('order_by') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
+                <option value="type_asc" {{ request('order_by') == 'type_asc' ? 'selected' : '' }}>Type (A-Z)</option>
+                <option value="type_desc" {{ request('order_by') == 'type_desc' ? 'selected' : '' }}>Type (Z-A)</option>
             </select>
         </form>
     </div>
@@ -70,8 +72,26 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Type</th>
+                        <th>
+                            <a href="{{ route('document.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'title_asc' ? 'title_desc' : 'title_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'title_asc')
+                                <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'title_desc')
+                                <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Title
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('document.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'type_asc' ? 'type_desc' : 'type_asc')])) }}" class="text-black text-decoration-none">
+                                @if (request('order_by') == 'type_asc')
+                                <i class="bi bi-arrow-up ms-1"></i>
+                                @elseif (request('order_by') == 'type_desc')
+                                <i class="bi bi-arrow-down ms-1"></i>
+                                @endif
+                                Type
+                            </a>
+                        </th>
                         <th>Conference</th>
                         <th>Actions</th>
                     </tr>
