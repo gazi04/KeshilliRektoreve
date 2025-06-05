@@ -54,68 +54,83 @@
         </form>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th>Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($admins as $admin)
-                <tr>
-                    <td>{{ $admin->name }}</td>
-                    <td>{{ $admin->lastname }}</td>
-                    <td>{{ $admin->email }}</td>
-                    <td>{{ $admin->phoneNumber }}</td>
-                    <td>{{ $admin->address }}</td>
-                    <td>{{ $admin->username }}</td>
-                    <td>
-                        @if ($admin->isActive)
-                        <span class="badge bg-success">Active</span>
-                        @else
-                        <span class="badge bg-danger">Inactive</span>
-                        @endif
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
+    <div class="card">
+        <div class="card-header">
+            @if(request('type'))
+            {{ request('type') }} ({{ $admins->count() }})
+            @else
+            All the admins ({{ $admins->count() }})
+            @endif
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($admins as $admin)
+                    <tr>
+                        <td>{{ $admin->name }}</td>
+                        <td>{{ $admin->lastname }}</td>
+                        <td>{{ $admin->email }}</td>
+                        <td>{{ $admin->phoneNumber }}</td>
+                        <td>{{ $admin->address }}</td>
+                        <td>{{ $admin->username }}</td>
+                        <td>
                             @if ($admin->isActive)
-                            <form action="{{ route('admin.deactivate') }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="id" value="{{ $admin->id }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Deactivate</button>
-                            </form>
+                            <span class="badge bg-success">Active</span>
                             @else
-                            <form action="{{ route('admin.activate') }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="id" value="{{ $admin->id }}">
-                                <button type="submit" class="btn btn-success btn-sm">Activate</button>
-                            </form>
+                            <span class="badge bg-secondary">Inactive</span>
                             @endif
-                            <form action="{{ route('admin.edit') }}" method="GET">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $admin->id }}">
-                                <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="text-center">No admin users found.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <form action="{{ route('admin.edit') }}" method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $admin->id }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-pencil-fill"></i> Edit
+                                    </button>
+                                </form>
+                                @if ($admin->isActive)
+                                <form action="{{ route('admin.deactivate') }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="id" value="{{ $admin->id }}">
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-toggle-on"></i> Deactivate
+                                    </button>
+                                </form>
+                                @else
+                                <form action="{{ route('admin.activate') }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="id" value="{{ $admin->id }}">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="bi bi-toggle-off"></i> Activate
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center">No admin users found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     {{-- Laravel's pagination links --}}

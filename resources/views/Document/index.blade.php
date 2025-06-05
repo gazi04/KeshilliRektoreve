@@ -26,7 +26,7 @@
         <strong>Whoops! There were some problems.</strong>
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -58,68 +58,77 @@
         </form>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Conference</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($documents as $document)
-                <tr>
-                    <td>{{ $document->title }}</td>
-                    <td>{{ ucfirst($document->type) }}</td>
-                    <td>
-                        @if ($document->conference)
-                        <form action="{{ route('conference.edit') }}" method="GET" class="d-inline">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $document->conference->id }}" />
-                            <button type="submit" class="btn btn-link p-0 m-0 border-0 text-decoration-none" title="View Conference Details">
-                                {{ $document->conference->title }}
-                            </button>
-                        </form>
-                        @else
-                        N/A
-                        @endif
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <form action="{{ route('document.download') }}" method="POST" class="d-inline">
+    <div class="card">
+        <div class="card-header">
+            @if(request('type'))
+            {{ request('type') }} ({{ $documents->count() }})
+            @else
+            All the documents ({{ $documents->count() }})
+            @endif
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Conference</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($documents as $document)
+                    <tr>
+                        <td>{{ $document->title }}</td>
+                        <td>{{ ucfirst($document->type) }}</td>
+                        <td>
+                            @if ($document->conference)
+                            <form action="{{ route('conference.edit') }}" method="GET" class="d-inline">
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $document->id }}" />
-                                <button type="submit" class="btn btn-info btn-sm" title="Download Document">
-                                    <i class="bi bi-download"></i> Download
+                                <input type="hidden" name="id" value="{{ $document->conference->id }}" />
+                                <button type="submit" class="btn btn-link p-0 m-0 border-0 text-decoration-none" title="View Conference Details">
+                                    {{ $document->conference->title }}
                                 </button>
                             </form>
-                            <form action="{{ route('document.edit') }}" method="GET" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $document->id }}" />
-                                <button type="submit" class="btn btn-primary btn-sm" title="Download Document">
-                                    <i class="bi bi-pencil-fill"></i> Edit
-                                </button>
-                            </form>
-                            <form action="{{ route('document.destroy') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this document?');" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="id" value="{{ $document->id }}" />
-                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Document">
-                                    <i class="bi bi-trash-fill"></i> Delete
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center">No documents found.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                            @else
+                            N/A
+                            @endif
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <form action="{{ route('document.download') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $document->id }}" />
+                                    <button type="submit" class="btn btn-info btn-sm" title="Download Document">
+                                        <i class="bi bi-download"></i> Download
+                                    </button>
+                                </form>
+                                <form action="{{ route('document.edit') }}" method="GET" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $document->id }}" />
+                                    <button type="submit" class="btn btn-primary btn-sm" title="Download Document">
+                                        <i class="bi bi-pencil-fill"></i> Edit
+                                    </button>
+                                </form>
+                                <form action="{{ route('document.destroy') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this document?');" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="id" value="{{ $document->id }}" />
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Document">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center">No documents found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     {{-- Laravel's pagination links --}}

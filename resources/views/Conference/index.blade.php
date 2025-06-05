@@ -20,13 +20,13 @@
     </div>
     @endif
 
-    {{-- Display Validation Errors (NEW SECTION) --}}
+    {{-- Display Validation Errors --}}
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Whoops! There were some problems with your input.</strong>
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -42,14 +42,14 @@
             status: '{{ request('status') }}',
             orderBy: '{{ request('order_by') }}',
             init() {
-                this.$watch('search', value => this.submitForm());
-                this.$watch('status', value => this.submitForm());
-                this.$watch('orderBy', value => this.submitForm());
+            this.$watch('search', value => this.submitForm());
+            this.$watch('status', value => this.submitForm());
+            this.$watch('orderBy', value => this.submitForm());
             },
             submitForm() {
-                this.$el.submit();
+            this.$el.submit();
             }
-        }">
+            }">
             <input type="text" name="search" x-model="search" placeholder="Search by title..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Conferences</option>
@@ -70,54 +70,70 @@
         </form>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($conferences as $conference)
-                <tr>
-                    <td>{{ $conference->title }}</td>
-                    <td>{{ $conference->date->format('Y-m-d H:i') }}</td>
-                    <td>
-                        @if ($conference->isActive)
-                        <span class="badge bg-success">Active</span>
-                        @else
-                        <span class="badge bg-secondary">Inactive</span>
-                        @endif
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <form action="{{ route('conference.edit') }}" method="GET">
-                                <input type="hidden" name="id" value="{{ $conference->id }}">
-                                <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                            </form>
+    <div class="card">
+        <div class="card-header">
+            @if(request('type'))
+            {{ request('type') }} ({{ $conferences->count() }})
+            @else
+            All the conferences ({{ $conferences->count() }})
+            @endif
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($conferences as $conference)
+                    <tr>
+                        <td>{{ $conference->title }}</td>
+                        <td>{{ $conference->date->format('Y-m-d H:i') }}</td>
+                        <td>
+                            @if ($conference->isActive)
+                            <span class="badge bg-success">Active</span>
+                            @else
+                            <span class="badge bg-secondary">Inactive</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <form action="{{ route('conference.edit') }}" method="GET">
+                                    <input type="hidden" name="id" value="{{ $conference->id }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-pencil-fill"></i>Edit
+                                    </button>
+                                </form>
 
-                            <form action="{{ route('conference.toggleStatus') }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="id" value="{{ $conference->id }}">
-                                <button type="submit" class="btn btn-sm {{ $conference->isActive ? 'btn-warning' : 'btn-success' }}"
-                                    onclick="return confirm('Are you sure you want to {{ $conference->isActive ? 'deactivate' : 'activate' }} this conference?');">
-                                    {{ $conference->isActive ? 'Deactivate' : 'Activate' }}
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="3" class="text-center">No conferences found.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                <form action="{{ route('conference.toggleStatus') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="id" value="{{ $conference->id }}">
+                                    <button type="submit" class="btn btn-sm {{ $conference->isActive ? 'btn-warning' : 'btn-success' }}"
+                                        onclick="return confirm('Are you sure you want to {{ $conference->isActive ? 'deactivate' : 'activate' }} this conference?');"
+                                        title="{{ $conference->isActive ? 'Deactivate Conference' : 'Activate Conference' }}">
+                                        @if ($conference->isActive)
+                                        <i class="bi bi-toggle-on"></i> Deactivate
+                                        @else
+                                        <i class="bi bi-toggle-off"></i> Activate
+                                        @endif
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="3" class="text-center">No conferences found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     {{-- Laravel's pagination links --}}
