@@ -41,7 +41,12 @@
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or conference..." class="form-control me-2 flex-grow-1" style="max-width: 250px;">
 
             {{-- Search Button --}}
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+
+            {{-- Reset Button --}}
+            @if (request()->filled('search') || request()->filled('order_by'))
+            <a href="{{ route('document.index') }}" class="btn btn-outline-secondary">Reset</a>
+            @endif
 
             {{-- Order By Dropdown --}}
             <select name="order_by" class="form-select me-2" onchange="this.form.submit()">
@@ -50,11 +55,6 @@
                 <option value="title_asc" {{ request('order_by') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
                 <option value="title_desc" {{ request('order_by') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
             </select>
-
-            {{-- Reset Button --}}
-            @if (request()->filled('search') || request()->filled('order_by'))
-            <a href="{{ route('document.index') }}" class="btn btn-secondary">Reset</a>
-            @endif
         </form>
     </div>
 

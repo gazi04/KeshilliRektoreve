@@ -42,7 +42,6 @@
             status: '{{ request('status') }}',
             orderBy: '{{ request('order_by') }}',
             init() {
-            this.$watch('search', value => this.submitForm());
             this.$watch('status', value => this.submitForm());
             this.$watch('orderBy', value => this.submitForm());
             },
@@ -51,6 +50,12 @@
             }
             }">
             <input type="text" name="search" x-model="search" placeholder="Search by title..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
+            {{-- Added: Search Button --}}
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+            @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
+            <a href="{{ route('conference.index') }}" class="btn btn-outline-secondary">Reset</a>
+            @endif
+
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Conferences</option>
                 <option value="upcoming">Upcoming</option>
@@ -64,9 +69,6 @@
                 <option value="title_asc">Title (A-Z)</option>
                 <option value="title_desc">Title (Z-A)</option>
             </select>
-            @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
-            <a href="{{ route('conference.index') }}" class="btn btn-secondary">Reset</a>
-            @endif
         </form>
     </div>
 
@@ -105,7 +107,7 @@
                                 <form action="{{ route('conference.edit') }}" method="GET">
                                     <input type="hidden" name="id" value="{{ $conference->id }}">
                                     <button type="submit" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-pencil-fill"></i>Edit
+                                        <i class="bi bi-pencil-fill"></i> Edit
                                     </button>
                                 </form>
 
@@ -128,7 +130,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="text-center">No conferences found.</td>
+                        <td colspan="4" class="text-center">No conferences found.</td>
                     </tr>
                     @endforelse
                 </tbody>

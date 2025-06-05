@@ -29,15 +29,20 @@
             status: '{{ request('status') }}',
             orderBy: '{{ request('order_by') }}',
             init() {
-            this.$watch('search', value => this.submitForm());
-            this.$watch('status', value => this.submitForm());
-            this.$watch('orderBy', value => this.submitForm());
+                this.$watch('status', value => this.submitForm());
+                this.$watch('orderBy', value => this.submitForm());
             },
             submitForm() {
-            this.$el.submit();
+                this.$el.submit();
             }
             }">
             <input type="text" name="search" x-model="search" placeholder="Search admins..." class="form-control me-2 flex-grow-1" style="max-width: 200px;">
+            {{-- Added: Search Button --}}
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+
+            @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
+            <a href="{{ route('admin.index') }}" class="btn btn-outline-secondary">Reset</a>
+            @endif
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Statuses</option>
                 <option value="active">Active</option>
@@ -48,9 +53,6 @@
                 <option value="name_asc">Name (A-Z)</option>
                 <option value="name_desc">Name (Z-A)</option>
             </select>
-            @if (request()->filled('search') || request()->filled('status') || request()->filled('order_by'))
-            <a href="{{ route('admin.index') }}" class="btn btn-secondary">Reset</a>
-            @endif
         </form>
     </div>
 
