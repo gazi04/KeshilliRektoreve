@@ -9,25 +9,21 @@
     <title>@yield('title')</title>
     <style>
         body {
-            /* Ensure body takes full viewport height and uses flexbox for overall layout */
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* Stack vertically for overall flex layout */
+            flex-direction: column;
         }
 
-        /* Styles for the main content wrapper when sidebar is present */
         .page-wrapper {
             display: flex;
-            flex-grow: 1; /* Allow content to grow and fill available space */
+            flex-grow: 1;
         }
 
-        /* Main content area padding for when sidebar is fixed/present */
         .main-content {
-            flex-grow: 1; /* Allows main content to fill remaining width */
-            padding: 1.5rem; /* Default padding for content area */
+            flex-grow: 1;
+            padding: 1.5rem;
         }
 
-        /* Custom styles for Bootstrap toggle buttons in sidebar (for nested menus) */
         .btn-toggle {
             display: inline-flex;
             align-items: center;
@@ -36,23 +32,22 @@
             color: rgba(0, 0, 0, .65);
             background-color: transparent;
             border: 0;
-            width: 100%; /* Ensure button takes full width */
-            text-align: left; /* Align text to left */
+            width: 100%;
+            text-align: left;
         }
         .btn-toggle:hover,
         .btn-toggle:focus {
             color: rgba(0, 0, 0, .85);
             background-color: #e2e6ea;
-            outline: none; /* Remove default focus outline */
+            outline: none;
         }
-        /* Arrow icon for collapsible menus */
         .btn-toggle::before {
             width: 1.25em;
             line-height: 0;
             content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
             transition: transform .35s ease;
             transform-origin: .5em 50%;
-            margin-left: auto; /* Push arrow to the right */
+            margin-left: auto;
         }
         .btn-toggle[aria-expanded="true"] {
             color: rgba(0, 0, 0, .85);
@@ -60,50 +55,45 @@
         .btn-toggle[aria-expanded="true"]::before {
             transform: rotate(90deg);
         }
-        /* Styling for nested nav links in collapsible menus */
         .btn-toggle-nav a {
             padding: .1875rem .5rem;
             margin-top: .125rem;
-            margin-left: 1.5rem; /* Indent nested links */
-            display: block; /* Ensure links take full width for padding/hover */
+            margin-left: 1.5rem;
+            display: block;
         }
         .btn-toggle-nav a:hover,
         .btn-toggle-nav a:focus {
             background-color: #dee2e6;
         }
 
-        /* Active link styling */
         .nav-link.active {
             background-color: var(--bs-primary) !important;
             color: white !important;
         }
 
-        /* Sidebar specific styles */
         .sidebar-desktop {
-            width: 280px; /* Fixed width for desktop sidebar */
-            flex-shrink: 0; /* Prevent sidebar from shrinking */
-            border-right: 1px solid rgba(0, 0, 0, .125); /* Separator border */
-            background-color: #f8f9fa; /* Light background */
-            height: 100vh; /* Take full viewport height */
-            overflow-y: auto; /* Enable scrolling for long content */
-            position: sticky; /* Make it sticky */
-            top: 0; /* Stick to the top */
+            width: 280px;
+            flex-shrink: 0;
+            border-right: 1px solid rgba(0, 0, 0, .125);
+            background-color: #f8f9fa;
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
         }
 
-        /* Hide desktop sidebar and adjust main content on small screens */
-        @media (max-width: 991.98px) { /* Bootstrap's lg breakpoint */
+        @media (max-width: 1399.98px) {
             .sidebar-desktop {
-                display: none; /* Hide the static sidebar on small screens */
+                display: none;
             }
             .main-content {
-                /* Add top margin if you have a fixed top navbar for the offcanvas toggle */
-                margin-top: 56px; /* Adjust if your top navbar height is different */
+                margin-top: 56px;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom d-lg-none fixed-top">
+    <nav class="navbar navbar-expand-xxl navbar-light bg-light border-bottom d-xxl-none fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand text-primary fw-bold" href="#">[Logo] Rectors' Council</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +103,7 @@
     </nav>
 
     <div class="page-wrapper">
-        <aside class="sidebar-desktop d-none d-lg-block p-3">
+        <aside class="sidebar-desktop d-none d-xxl-block p-3">
             @include('components.sidebar', ['isOffcanvas' => false])
         </aside>
 
