@@ -7,7 +7,7 @@ $prefix = $isOffcanvas ? 'offcanvas-' : '';
 {{-- Brand/Logo for desktop sidebar (Offcanvas has its own header) --}}
 @unless($isOffcanvas)
 <a href="{{ route('admin.index') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-primary text-decoration-none">
-    <span class="fs-5 fw-bold">[Logo] Rectors' Council</span>
+<span class="fs-5 fw-bold"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVJmI9Mf6VY9PVXl4OvsvNUIYOR71t6-B0NQ&s" width="40" height="40" alt=""> Rectors' Council</span>
 </a>
 <hr>
 @endunless
@@ -130,23 +130,11 @@ $prefix = $isOffcanvas ? 'offcanvas-' : '';
 </ul>
 
 <hr>
-
-{{-- User Profile Dropdown --}}
-<div class="dropdown">
-    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="{{ $prefix }}dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>{{ Auth::user()->name ?? 'Admin' }}</strong>
-    </a>
-    <ul class="dropdown-menu text-small shadow" aria-labelledby="{{ $prefix }}dropdownUser2">
-        {{-- Profile Settings - Using # as placeholder for now --}}
-        <li><a class="dropdown-item" href="#">Profile Settings</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            {{-- Logout form - This route is defined --}}
-            <form action="{{ route('logout') }}" method="POST" class="dropdown-item p-0">
-                @csrf
-                <button type="submit" class="btn btn-link text-decoration-none text-dark w-100 text-start ps-3 py-2">Sign out</button>
-            </form>
-        </li>
-    </ul>
-</div>
+    {{-- Logout form - This route is defined --}}
+    <form action="{{ route('logout') }}" method="POST" class="dropdown-item p-0">
+        @csrf
+        <div class="d-flex align-items-center justify-content-start">
+            <i class="bi bi-box-arrow-right"></i>
+            <button type="submit" class="btn btn-link text-decoration-none text-dark w-100 text-start ps-3 py-2">Sign out</button>
+        </div>
+    </form>
