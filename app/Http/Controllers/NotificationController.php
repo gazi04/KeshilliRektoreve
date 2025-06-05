@@ -26,7 +26,14 @@ class NotificationController extends Controller
                 $query->where('notificationType', $type);
             }
 
-            $notifications = $query->orderBy('datetime', 'desc')->get();
+            if ($request->filled('search')) {
+                $search = $request->input('search');
+                $query->where(function ($query) use ($search): void {
+                    $query->where('title', 'like', '%'.$search.'%');
+                });
+            }
+
+            $notifications = $query->orderBy('datetime', 'desc')->paginate(10);
 
             return view('notifications.index', [
                 'notifications' => $notifications,

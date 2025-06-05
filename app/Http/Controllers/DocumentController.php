@@ -32,6 +32,8 @@ class DocumentController extends Controller
                 match ($request->input('order_by')) {
                     'title_asc' => $documents->orderBy('title', 'asc'),
                     'title_desc' => $documents->orderBy('title', 'desc'),
+                    'type_asc' => $documents->orderBy('type', 'asc'),
+                    'type_desc' => $documents->orderBy('type', 'desc'),
                     'oldest' => $documents->orderBy('created_at', 'asc'),
                     default => $documents->orderBy('created_at', 'desc'),
                 };

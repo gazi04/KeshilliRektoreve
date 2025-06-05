@@ -152,6 +152,7 @@ class MembersController extends Controller
         if ($member->imageUrl && Storage::disk('private_members')->exists($member->imageUrl)) {
             return Storage::disk('private_members')->response($member->imageUrl);
         }
+
         return null;
     }
 }

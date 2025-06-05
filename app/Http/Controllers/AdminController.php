@@ -59,6 +59,12 @@ class AdminController extends Controller
                 match ($request->input('order_by')) {
                     'name_asc' => $admins->orderBy('name', 'asc'),
                     'name_desc' => $admins->orderBy('name', 'desc'),
+                    'lastname_asc' => $admins->orderBy('lastName', 'asc'),
+                    'lastname_desc' => $admins->orderBy('lastName', 'desc'),
+                    'email_asc' => $admins->orderBy('email', 'asc'),
+                    'email_desc' => $admins->orderBy('email', 'desc'),
+                    'username_asc' => $admins->orderBy('username', 'asc'),
+                    'username_desc' => $admins->orderBy('username', 'desc'),
                     default => $admins->orderBy('id', 'desc'),
                 };
             } else {
