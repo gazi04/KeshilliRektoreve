@@ -25,7 +25,11 @@ class DocumentController extends Controller
 
             if ($request->filled('search')) {
                 $search = $request->input('search');
-                $documents->where('title', 'like', '%'.$search.'%');
+                $documents->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('type', 'like', '%'.$search.'%')
+                    ->orWhereHas('conference', function ($query) use ($search) {
+                        $query->where('title', 'like', '%'.$search.'%');
+                    });
             }
 
             if ($request->filled('order_by')) {
@@ -56,7 +60,9 @@ class DocumentController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            $conferences = Conference::orderBy('date', 'desc')->get();
+            $conferences = Conference::orderBy('date', 'desc')
+                ->where('isActive', true)
+                ->get();
 
             if ($conferences->isEmpty()) {
                 return redirect()->route('document.index')->with('error', 'Nuk mund të krijohet një dokument pa konferencat ekzistuese.');
