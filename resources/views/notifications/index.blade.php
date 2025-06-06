@@ -34,7 +34,7 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        
+
 
         {{-- Search and Filter Form --}}
         <form action="{{ route('notifications.index') }}" method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 justify-content-end" x-data="{
@@ -60,9 +60,9 @@
             @if (request()->filled('search') || request()->filled('type') || request()->filled('order_by'))
             <a href="{{ route('notifications.index') }}" class="btn btn-outline-secondary">Reset</a>
             @endif</div>
-            
+
         </div>
-           
+
 
             {{-- Type Filter --}}
             <select name="type" x-model="type" class="form-select me-2">
@@ -138,6 +138,7 @@
                                     @endif
                                 </a>
                             </th>
+                            <th>Description</th>
                             <th>
                                 <a href="{{ route('notifications.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'title_asc' ? 'title_desc' : 'title_asc')])) }}" class="text-black text-decoration-none d-flex align-items-center justify-content-between">
                                     Title
@@ -175,6 +176,7 @@
                                 @endif
                             </td>
                             <td>{{ $notification->datetime->format('d/m/Y H:i') }}</td>
+                            <td>{{ \Illuminate\Support\Str::limit($notification->description, 50) }}</td>
                             <td>{{ \Illuminate\Support\Str::limit($notification->title, 40) }}</td>
                             <td>
                                 <span
