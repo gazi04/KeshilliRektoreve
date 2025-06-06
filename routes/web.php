@@ -10,8 +10,13 @@ use App\Http\Middleware\IsLogged;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Client.index');
 })->name('index');
+
+Route::view('/rrethNesh', 'Client.aboutUs')->name('rrethNesh');
+Route::view('/anetaret', 'Client.members')->name('anetaret');
+Route::view('/dokumentet', 'Client.documents')->name('dokumentet');
+Route::view('/njoftimet', 'Client.notifications')->name('njoftimet');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginPage')->name('loginPage');

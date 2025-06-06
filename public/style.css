@@ -1,0 +1,27 @@
+html, body {
+  background-color: #ffffff;
+}
+body {
+  overflow-x: hidden;
+}
+
+.bg-primary {
+  background-color: #0c2a61 !important;
+}
+
+nav,
+footer {
+  height: 15vh;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 995px) {
+  nav,
+  footer {
+    height: auto;
+  }
+}
+
