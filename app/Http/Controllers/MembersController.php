@@ -22,35 +22,45 @@ class MembersController extends Controller
             $search = $request->query('search');
             if ($search) {
                 $query->where(function ($q) use ($search): void {
-                    $q->where('title', 'like', '%'.$search.'%')
-                        ->orWhere('name', 'like', '%'.$search.'%')
-                        ->orWhere('position', 'like', '%'.$search.'%')
-                        ->orWhere('email', 'like', '%'.$search.'%');
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('position', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
                 });
             }
 
-            // Default sort by 'orderNr' ascending
-            $sortField = $request->query('sort', 'orderNr');
-            $sortDirection = $request->query('direction', 'asc');
+            $orderBy = $request->query('order_by', 'latest');
+            $sortField = 'created_at';
+            $sortDirection = 'desc';
 
-            // Validate sort field to prevent SQL injection
-            $allowedSortFields = ['orderNr', 'name', 'position', 'email', 'title'];
-            if (! in_array($sortField, $allowedSortFields)) {
-                $sortField = 'orderNr';
-            }
+            if ($orderBy !== 'latest') {
+                $parts = explode('_', $orderBy);
+                if (count($parts) === 2) {
+                    $potentialSortField = $parts[0];
+                    $potentialSortDirection = $parts[1];
 
-            // Validate sort direction
-            if (! in_array($sortDirection, ['asc', 'desc'])) {
-                $sortDirection = 'asc';
+                    $allowedSortFields = ['orderNr', 'name', 'position', 'email', 'title'];
+                    if (in_array($potentialSortField, $allowedSortFields)) {
+                        $sortField = $potentialSortField;
+                    }
+
+                    if (in_array($potentialSortDirection, ['asc', 'desc'])) {
+                        $sortDirection = $potentialSortDirection;
+                    }
+                }
             }
 
             $query->orderBy($sortField, $sortDirection);
 
             $members = $query->paginate(10)->withQueryString();
 
-            return view('members.index', ['members' => $members, 'search' => $search, 'sortField' => $sortField, 'sortDirection' => $sortDirection]);
+            return view('members.index', [
+                'members' => $members,
+                'search' => $search,
+                'orderBy' => $orderBy
+            ]);
         } catch (Throwable $e) {
-            Log::error('Error fetching members index: '.$e->getMessage(), ['exception' => $e]);
+            Log::error('Error fetching members index: ' . $e->getMessage(), ['exception' => $e]);
 
             return view('errors.custom-error', ['message' => 'Nuk mund të merreshin anëtarët.']);
         }
