@@ -3,128 +3,88 @@
 @section('title', 'Njoftimet | Universiteti Publik Kadri Zeka')
 
 @section('content')
-    <section class="py-5 bg-light">
-      <div class="container">
+<section class="py-5 bg-light">
+    <div class="container">
         <h2 class="mb-4 text-dark text-center">Njoftimet</h2>
         <div class="d-flex justify-content-center gap-3 mb-4">
-          <button class="btn btn-outline-primary active" data-filter="all">Të Gjitha</button>
-          <button class="btn btn-outline-primary" data-filter="lajm">Lajm</button>
-          <button class="btn btn-outline-primary" data-filter="konkurs">Konkurs</button>
-          <button class="btn btn-outline-primary" data-filter="komunikate">Komunikatë</button>
+            <button class="btn btn-outline-primary {{ $activeFilter === 'all' ? 'active' : '' }}" data-filter="all">Të Gjitha</button>
+            <button class="btn btn-outline-primary {{ $activeFilter === 'Lajm' ? 'active' : '' }}" data-filter="Lajm">Lajm</button>
+            <button class="btn btn-outline-primary {{ $activeFilter === 'Konkurs' ? 'active' : '' }}" data-filter="Konkurs">Konkurs</button>
+            <button class="btn btn-outline-primary {{ $activeFilter === 'Komunikatë' ? 'active' : '' }}" data-filter="Komunikatë">Komunikatë</button>
         </div>
 
         <div class="row g-4">
-          <div class="col-lg-4 col-md-6 news-card" data-category="lajm">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="{{ asset('img/pic5.jpg') }}" class="card-img-top" alt="News Image" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Njoftimi i fundit për regjistrim</h5>
-                <p class="card-text text-muted">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                <small class="text-muted">Publikuar: 2025-05-30</small>
-                <a href="{{ url('/njoftim.html?id=1') }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
-              </div>
+            @forelse($notifications as $notification)
+            <div class="col-lg-4 col-md-6 news-card" data-category="{{ strtolower($notification->notificationType) }}">
+                <div class="card h-100 shadow-sm border-0">
+                    @if($notification->imageUrl)
+                    <img src="{{ route('notifications.image', $notification) }}" class="card-img-top" alt="{{ $notification->title }}" style="height: 200px; object-fit: cover;">
+                    @else
+                    <div class="card-img-top bg-secondary" style="height: 200px;"></div>
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ $notification->title }}</h5>
+                        <p class="card-text text-muted">
+                            {{ Str::limit($notification->description, 100) }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Publikuar: {{ $notification->datetime->format('Y-m-d') }}</small>
+                        <a href="{{ route('showNotification', $notification) }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6 news-card" data-category="konkurs">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="{{ asset('img/pic6.jpg') }}" class="card-img-top" alt="News Image" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Konkursi për pozita të reja akademike</h5>
-                <p class="card-text text-muted">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                <small class="text-muted">Publikuar: 2025-05-28</small>
-                <a href="{{ url('/njoftim.html?id=2') }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
-              </div>
+            @empty
+            <div class="col-12">
+                <div class="alert alert-info">Nuk ka njoftime të disponueshme.</div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-6 news-card" data-category="komunikate">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="{{ asset('img/slide1.jpeg') }}" class="card-img-top" alt="News Image" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Komunikatë për shtyp mbi bashkëpunimin ndërkombëtar</h5>
-                <p class="card-text text-muted">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                <small class="text-muted">Publikuar: 2025-05-25</small>
-                <a href="{{ url('/njoftim.html?id=3') }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 news-card" data-category="lajm">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="{{ asset('img/slide2.jpg') }}" class="card-img-top" alt="News Image" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Dita e Hapur e Universitetit</h5>
-                <p class="card-text text-muted">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                <small class="text-muted">Publikuar: 2025-05-20</small>
-                <a href="{{ url('/njoftim.html?id=4') }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 news-card" data-category="komunikate">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="{{ asset('img/slide3.jpg') }}" class="card-img-top" alt="News Image" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Njoftim për provimet e semestrit të pranverës</h5>
-                <p class="card-text text-muted">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                <small class="text-muted">Publikuar: 2025-05-15</small>
-                <a href="{{ url('/njoftim.html?id=5') }}" class="btn btn-sm btn-primary">Lexo më shumë</a>
-              </div>
-            </div>
-          </div>
+            @endforelse
         </div>
-      </div>
-    </section>
+
+        {{-- Pagination --}}
+        @if($notifications->hasPages())
+        <div class="d-flex justify-content-center mt-4">
+            {{ $notifications->links() }}
+        </div>
+        @endif
+    </div>
+</section>
 @endsection
 
 @push('scripts')
-    <script>
-      const filterButtons = document.querySelectorAll("[data-filter]");
-      const newsCards = document.querySelectorAll(".news-card");
+<script>
+const filterButtons = document.querySelectorAll("[data-filter]");
+const newsCards = document.querySelectorAll(".news-card");
 
-      function filterNews(category) {
-        newsCards.forEach((card) => {
-          card.style.display =
-            category === "all" || card.dataset.category === category
-              ? "block"
-              : "none";
-        });
+function filterNews(category) {
+    newsCards.forEach((card) => {
+        card.style.display =
+            category === "all" || card.dataset.category === category.toLowerCase()
+                ? "block"
+                : "none";
+    });
 
-        filterButtons.forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.filter === category);
-        });
-      }
-      window.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const filter = params.get("filter") || "all";
-        filterNews(filter);
-      });
-      filterButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const selected = btn.getAttribute("data-filter");
-          filterNews(selected);
-          // Update URL for consistent filtering on refresh/share
-          const url = new URL(window.location.href);
-          url.searchParams.set('filter', selected);
-          window.history.pushState({ path: url.href }, '', url.href);
-        });
-      });
-    </script>
+    filterButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.filter === category);
+    });
+}
+
+// Initialize with current filter
+document.addEventListener('DOMContentLoaded', () => {
+    const currentFilter = "{{ $activeFilter }}";
+    if (currentFilter !== 'all') {
+        filterNews(currentFilter);
+    }
+});
+
+filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const selected = btn.getAttribute("data-filter");
+        // Update URL with filter parameter
+        const url = new URL(window.location);
+        url.searchParams.set('filter', selected);
+        window.location.href = url.toString();
+    });
+});
+</script>
 @endpush

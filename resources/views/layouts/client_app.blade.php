@@ -133,21 +133,21 @@ u                 href="{{ route('dokumentet') }}" {{-- Example static link --}}
                 </li>
                 <li>
                   <a class="dropdown-item text-white bg-primary"
-                     href="{{ url('/njoftime?filter=lajm') }}"
+                     href="{{ url('/njoftimet?filter=Lajm') }}"
                      onmouseover="this.classList.add('bg-white','text-primary'); this.classList.remove('bg-primary','text-white')"
                      onmouseout="this.classList.add('bg-primary','text-white'); this.classList.remove('bg-white','text-primary')"
                   >Lajm</a>
                 </li>
                 <li>
                   <a class="dropdown-item text-white bg-primary"
-                     href="{{ url('/njoftime?filter=konkurs') }}"
+                     href="{{ url('/njoftimet?filter=Konkurs') }}"
                      onmouseover="this.classList.add('bg-white','text-primary'); this.classList.remove('bg-primary','text-white')"
                      onmouseout="this.classList.add('bg-primary','text-white'); this.classList.remove('bg-white','text-primary')"
                   >Konkurs</a>
                 </li>
                 <li>
                   <a class="dropdown-item text-white bg-primary"
-                     href="{{ url('/njoftime?filter=komunikate') }}"
+                     href="{{ url('/njoftimet?filter=Komunikatë') }}"
                      onmouseover="this.classList.add('bg-white','text-primary'); this.classList.remove('bg-primary','text-white')"
                      onmouseout="this.classList.add('bg-primary','text-white'); this.classList.remove('bg-white','text-primary')"
                   >Komunikatë</a>

@@ -4,19 +4,25 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\IsLogged;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('Client.index');
-})->name('index');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+
+    Route::get('/njoftimet', 'notifications')->name('njoftimet');
+    Route::get('/njoftim/{notification}', 'showNotification')->name('showNotification');
+
+    Route::get('/anetaret', 'members')->name('anetaret');
+
+    Route::get('/dokumentet', 'documents')->name('dokumentet');
+    Route::get('/dokumente/{document}/download', 'downloadDocument')->name('downloadDocument');
+});
 
 Route::view('/rrethNesh', 'Client.aboutUs')->name('rrethNesh');
-Route::view('/anetaret', 'Client.members')->name('anetaret');
-Route::view('/dokumentet', 'Client.documents')->name('dokumentet');
-Route::view('/njoftimet', 'Client.notifications')->name('njoftimet');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginPage')->name('loginPage');
@@ -61,7 +67,7 @@ Route::middleware(IsLogged::class)->group(function () {
 
         Route::delete('/delete', 'destroy')->name('destroy');
 
-        Route::post('/download', 'download')->name('download');
+        Route::post('/download', 'download')->name('download')->withoutMiddleware(IsLogged::class);
     });
 
     Route::prefix('/members')->controller(MembersController::class)->name('members.')->group(function () {
@@ -77,7 +83,7 @@ Route::middleware(IsLogged::class)->group(function () {
 
         Route::delete('/{member}', 'destroy')->name('destroy');
 
-        Route::get('/{member}/image', 'showImage')->name('image');
+        Route::get('/{member}/image', 'showImage')->name('image')->withoutMiddleware(IsLogged::class);
     });
 
     Route::prefix('/notifications')->controller(NotificationController::class)->name('notifications.')->group(function () {
@@ -91,6 +97,6 @@ Route::middleware(IsLogged::class)->group(function () {
 
         Route::delete('/{notification}', 'destroy')->name('destroy');
 
-        Route::get('/{notification}/image', 'showImage')->name('image');
+        Route::get('/{notification}/image', 'showImage')->name('image')->withoutMiddleware(IsLogged::class);
     });
 });
