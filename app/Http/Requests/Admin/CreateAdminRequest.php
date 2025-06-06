@@ -14,7 +14,7 @@ class CreateAdminRequest extends FormRequest
             'phoneNumber' => ['required', 'string', 'max:20'],
             'email' => ['required', 'email', 'unique:users,email'],
             'address' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:15', 'unique:users,username'],
+            'username' => ['required', 'string', 'max:15', 'unique:admins,username'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
