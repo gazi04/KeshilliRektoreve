@@ -23,6 +23,7 @@ Route::controller(HomeController::class)->group(function () {
 });
 
 Route::view('/rrethNesh', 'Client.aboutUs')->name('rrethNesh');
+Route::view('/naKontakto', 'Client.contanct')->name('naKontakto');
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginPage')->name('loginPage');
