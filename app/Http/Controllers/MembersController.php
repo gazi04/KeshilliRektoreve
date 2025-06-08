@@ -22,10 +22,10 @@ class MembersController extends Controller
             $search = $request->query('search');
             if ($search) {
                 $query->where(function ($q) use ($search): void {
-                    $q->where('title', 'like', '%' . $search . '%')
-                        ->orWhere('name', 'like', '%' . $search . '%')
-                        ->orWhere('position', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%');
+                    $q->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('name', 'like', '%'.$search.'%')
+                        ->orWhere('position', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%');
                 });
             }
 
@@ -57,10 +57,10 @@ class MembersController extends Controller
             return view('members.index', [
                 'members' => $members,
                 'search' => $search,
-                'orderBy' => $orderBy
+                'orderBy' => $orderBy,
             ]);
         } catch (Throwable $e) {
-            Log::error('Error fetching members index: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error fetching members index: '.$e->getMessage(), ['exception' => $e]);
 
             return view('errors.custom-error', ['message' => 'Nuk mund të merreshin anëtarët.']);
         }

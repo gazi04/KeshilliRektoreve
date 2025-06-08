@@ -25,14 +25,28 @@
                             @enderror
                         </div>
 
+                        {{-- Add this after the date field --}}
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                id="description"
+                                name="description"
+                                rows="3">{{ old('description') }}</textarea>
+                            @error('description')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
                         {{-- Date and Time Field --}}
                         <div class="mb-3">
                             <label for="date" class="form-label">Date and Time</label>
                             <input type="datetime-local" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}" required>
                             @error('date')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
                             @enderror
                         </div>
 

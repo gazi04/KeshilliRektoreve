@@ -20,6 +20,9 @@ Route::controller(HomeController::class)->group(function () {
 
     Route::get('/dokumentet', 'documents')->name('dokumentet');
     Route::get('/dokumente/{document}/download', 'downloadDocument')->name('downloadDocument');
+
+    Route::get('/konferencat', [HomeController::class, 'conferences'])->name('conferences');
+    Route::get('/konferenca/{conference}', [HomeController::class, 'showConference'])->name('showConference');
 });
 
 Route::view('/rrethNesh', 'Client.aboutUs')->name('rrethNesh');

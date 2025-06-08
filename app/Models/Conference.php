@@ -13,12 +13,13 @@ class Conference extends Model
     protected $fillable = [
         'title',
         'date',
+        'description',
         'isActive',
     ];
 
     public function documents()
     {
-        return $this->hasMany(Document::class);
+        return $this->hasMany(Document::class, 'id');
     }
 
     protected function casts(): array

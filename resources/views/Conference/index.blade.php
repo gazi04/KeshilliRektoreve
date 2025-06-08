@@ -59,9 +59,9 @@
             <a href="{{ route('conference.index') }}" class="btn btn-outline-secondary">Reset</a>
             @endif
            </div>
-            
+
         </div>
-           
+
 
             <select name="status" x-model="status" class="form-select me-2">
                 <option value="all">All Conferences</option>
@@ -110,6 +110,7 @@
                                     @endif
                                 </a>
                             </th>
+                            <th>Description</th>
                             <th>
                                 <a href="{{ route('conference.index', array_merge(request()->query(), ['order_by' => (request('order_by') == 'date_asc' ? 'date_desc' : 'date_asc')])) }}" class="text-black text-decoration-none d-flex align-items-center justify-content-between">
                                     Date
@@ -128,6 +129,7 @@
                         @foreach ($conferences as $conference)
                         <tr>
                             <td>{{ $conference->title }}</td>
+                            <td>{{ $conference->description ? Str::limit($conference->description, 50) : 'N/A' }}</td>
                             <td>{{ $conference->date->format('Y-m-d H:i') }}</td>
                             <td>
                                 @if ($conference->isActive)

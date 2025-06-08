@@ -152,7 +152,7 @@
                 <div class="d-flex flex-column h-100 ps-3 pe-3 @if(!$loop->last) border-end border-white @endif">
                     <small class="text-light">{{ $conference->date->format('d M Y') }}</small>
                     <div class="d-flex justify-content-between">
-                        <a href="#" class="text-white text-decoration-none fw-semibold">{{ $conference->title }}</a>
+                        <a href="{{ route('showConference', $conference) }}" class="text-white text-decoration-none fw-semibold">{{ $conference->title }}</a>
                     </div>
                 </div>
             </div>
@@ -161,7 +161,6 @@
     </div>
 </section>
 @endif
-
 {{-- Documents Section --}}
 @if($documents->isNotEmpty())
 <section id="documents" class="py-5 bg-white">

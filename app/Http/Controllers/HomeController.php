@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Conference;
 use App\Models\Document;
 use App\Models\Members;
 use App\Models\Notification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -58,7 +56,7 @@ class HomeController extends Controller
     public function showNotification(Notification $notification): View
     {
         return view('Client.notification', [
-            'notification' => $notification
+            'notification' => $notification,
         ]);
     }
 
@@ -75,7 +73,7 @@ class HomeController extends Controller
 
         return view('Client.notifications', [
             'notifications' => $notifications,
-            'activeFilter' => $filter
+            'activeFilter' => $filter,
         ]);
     }
 
@@ -85,14 +83,14 @@ class HomeController extends Controller
             ->paginate(8);
 
         return view('Client.members', [
-            'members' => $members
+            'members' => $members,
         ]);
     }
 
     public function downloadDocument(Document $document)
     {
         if (Storage::disk('private_documents')->exists($document->url)) {
-            $filename = $document->title . '.' . pathinfo((string) $document->url, PATHINFO_EXTENSION);
+            $filename = $document->title.'.'.pathinfo((string) $document->url, PATHINFO_EXTENSION);
 
             return Storage::disk('private_documents')->download($document->url, $filename);
         }
@@ -106,7 +104,27 @@ class HomeController extends Controller
             ->paginate(10);
 
         return view('Client.documents', [
-            'documents' => $documents
+            'documents' => $documents,
+        ]);
+    }
+
+    public function conferences(): View
+    {
+        $conferences = Conference::where('isActive', true)
+            ->orderBy('date', 'desc')
+            ->paginate(10);
+
+        return view('Client.conferences', [
+            'conferences' => $conferences,
+        ]);
+    }
+
+    public function showConference(Conference $conference): View
+    {
+        $conference->load('documents');
+
+        return view('Client.conference', [
+            'conference' => $conference,
         ]);
     }
 }

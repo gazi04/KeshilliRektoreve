@@ -16,6 +16,7 @@ class EditConferenceRequest extends FormRequest
         return [
             'id' => ['required', 'exists:conferences,id'],
             'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'date' => ['required', 'date'],
             'isActive' => ['required', 'boolean'],
         ];
@@ -35,6 +36,8 @@ class EditConferenceRequest extends FormRequest
             'title.required' => 'Titulli është i detyrueshëm.',
             'title.string' => 'Titulli duhet të jetë një varg tekstual.',
             'title.max' => 'Titulli nuk mund të jetë më i gjatë se 255 karaktere.',
+
+            'description.string' => 'Përshkrimi duhet të jetë një varg tekstual.',
 
             'date.required' => 'Data është e detyrueshme.',
             'date.date' => 'Data nuk është një format i vlefshëm i datës.',

@@ -21,6 +21,7 @@ class ConferenceController extends Controller
             $conferences = Conference::select([
                 'id',
                 'title',
+                'description',
                 'date',
                 'isActive',
             ]);
@@ -74,7 +75,7 @@ class ConferenceController extends Controller
     public function store(CreateConferenceRequest $request): View|RedirectResponse
     {
         try {
-            $validated = $request->only(['title', 'date']);
+            $validated = $request->only(['title', 'description', 'date']);
             $validated['isActive'] = true;
 
             Conference::create($validated);
@@ -111,7 +112,7 @@ class ConferenceController extends Controller
     public function update(EditConferenceRequest $request): View|RedirectResponse
     {
         try {
-            $validated = $request->only(['id', 'title', 'date', 'isActive']);
+            $validated = $request->only(['id', 'title', 'description', 'date', 'isActive']);
 
             $conference = Conference::findOrFail($validated['id']);
 

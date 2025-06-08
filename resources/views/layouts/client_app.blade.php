@@ -77,39 +77,46 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle text-light"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Konferenca
-                </a>
-                <ul class="dropdown-menu bg-primary border-0">
-                  <li>
-                    <a class="dropdown-item text-white bg-primary"
-                       href="{{ url('/konferenca-2023.html') }}" {{-- Example static link --}}
-                       onmouseover="this.classList.add('bg-white', 'text-primary'); this.classList.remove('bg-primary', 'text-white')"
-                       onmouseout="this.classList.add('bg-primary', 'text-white'); this.classList.remove('bg-white', 'text-primary')"
-                    >Konferenca 2023</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item text-white bg-primary"
-                       href="{{ url('/konferenca-2024.html') }}" {{-- Example static link --}}
-                       onmouseover="this.classList.add('bg-white', 'text-primary'); this.classList.remove('bg-primary', 'text-white')"
-                       onmouseout="this.classList.add('bg-primary', 'text-white'); this.classList.remove('bg-white', 'text-primary')"
-                    >Konferenca 2024</a>
-                  </li>
-                </ul>
-              </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Konferenca
+                                </a>
+                                <ul class="dropdown-menu bg-primary border-0">
+                                    @php
+                                    $recentConferences = App\Models\Conference::where('isActive', true)
+                                    ->orderBy('date', 'desc')
+                                    ->limit(2)
+                                    ->get();
+                                    @endphp
+
+                                    @foreach($recentConferences as $conference)
+                                    <li>
+                                        <a class="dropdown-item text-white bg-primary"
+                                            href="{{ route('showConference', $conference) }}"
+                                            onmouseover="this.classList.add('bg-white', 'text-primary'); this.classList.remove('bg-primary', 'text-white')"
+                                            onmouseout="this.classList.add('bg-primary', 'text-white'); this.classList.remove('bg-white', 'text-primary')">
+                                            {{ $conference->title }} ({{ $conference->date->format('Y') }})
+                                        </a>
+                                    </li>
+                                    @endforeach
+
+                                    <li><hr class="dropdown-divider bg-white"></li>
+                                    <li>
+                                        <a class="dropdown-item text-white bg-primary"
+                                            href="{{ route('conferences') }}"
+                                            onmouseover="this.classList.add('bg-white', 'text-primary'); this.classList.remove('bg-primary', 'text-white')"
+                                            onmouseout="this.classList.add('bg-primary', 'text-white'); this.classList.remove('bg-white', 'text-primary')">
+                                            Të gjitha konferencat
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                <li class="nav-item">
                 <a
-                  class="nav-link text-light @if(Request::is('dokumentet')) active text-warning @endif" {{-- Dynamic active class --}}
+                  class="nav-link text-light @if(Request::is('dokumentet')) active text-warning @endif"
                   aria-current="page"
-u                 href="{{ route('dokumentet') }}" {{-- Example static link --}}
+u                 href="{{ route('dokumentet') }}"
                   >Dokumentet</a
                 >
               </li>
@@ -157,7 +164,7 @@ u                 href="{{ route('dokumentet') }}" {{-- Example static link --}}
             <li class="nav-item d-flex align-items-center" style="margin-top: 2px;">
               <a
                 class="btn btn-sm text-primary bg-white rounded-pill"
-                href="{{ url('/kontakt.html') }}"
+                href="{{ route('naKontakto') }}"
                 style="font-weight: bold; border: 1.5px solid #0d6efd; transition: 0.3s"
                 onmouseover="this.classList.remove('bg-white'); this.classList.add('bg-primary', 'text-white')"
                 onmouseout="this.classList.remove('bg-primary', 'text-white'); this.classList.add('bg-white', 'text-primary')"
@@ -185,6 +192,6 @@ u                 href="{{ route('dokumentet') }}" {{-- Example static link --}}
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts') {{-- For page-specific scripts --}}
+    @stack('scripts')
   </body>
 </html>

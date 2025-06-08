@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Conference')
+@section('title', 'Përditësoni Konferencën')
 
 @section('content')
 <div class="container mt-4">
@@ -54,6 +54,19 @@
                             @enderror
                         </div>
 
+                        {{-- Add this after the date field --}}
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                id="description"
+                                name="description"
+                                rows="3">{{ old('description', $conference->description) }}</textarea>
+                            @error('description')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
                         {{-- Date and Time Field --}}
                         <div class="mb-3">
                             <label for="date" class="form-label">Date and Time</label>
