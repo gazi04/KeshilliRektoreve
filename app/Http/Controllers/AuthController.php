@@ -6,9 +6,11 @@ use App\Http\Requests\Authentication\LoginRequest;
 use App\Models\Admin;
 use App\Traits\AuthHelper;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -21,28 +23,32 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->only('username', 'password');
+        try {
+            $credentials = $request->only('username', 'password');
 
-        $isActiveAdmin = Admin::where('username', $credentials['username'])
-            ->value('isActive');
+            $admin = Admin::where('username', $credentials['username'])
+                ->firstOrFail();
 
-        if (! $isActiveAdmin) {
+            if (! $admin->isActive) {
+                return redirect()
+                    ->route('loginPage')
+                    ->withErrors('Nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
+            }
+
+            /** @var SessionGuard $guard */
+            $guard = Auth::guard('admin');
+            if ($guard->attempt($credentials)) {
+                $request->session()->regenerate();
+
+                return redirect()->route('admin.index');
+            }
+
             return redirect()
-                ->route('index')
-                ->withErrors('Nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
+                ->route('loginPage')
+                ->withErrors('Kyçja dështoi fjalëkalimi është i pasaktë.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors('Kyçja dështoi emri i përdoruesit është i pasaktë.');
         }
-
-        /** @var SessionGuard $guard */
-        $guard = Auth::guard('admin');
-        if ($guard->attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->route('admin.index');
-        }
-
-        return redirect()->
-            route('loginPage')
-                ->withErrors('Kyçja dështoi, emri i përdoruesit ose fjalëkalimi janë të pasaktë.');
     }
 
     public function logout(Request $request): RedirectResponse
