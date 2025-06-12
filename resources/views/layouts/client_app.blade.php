@@ -91,7 +91,7 @@
                                     @php
                                     $recentConferences = App\Models\Conference::where('isActive', true)
                                     ->orderBy('date', 'desc')
-                                    ->limit(2)
+                                    ->limit(4)
                                     ->get();
                                     @endphp
 
@@ -167,18 +167,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item d-flex align-items-center" style="margin-top: 2px;">
-                                <a
-                                    class="btn btn-sm text-primary bg-white rounded-pill @if(Request::is('naKontakto')) active @endif"
-                                    href="{{ route('naKontakto') }}"
-                                    style="font-weight: bold; border: 1.5px solid #0d6efd; transition: 0.3s"
-                                    onmouseover="this.classList.remove('bg-white'); this.classList.add('bg-primary', 'text-white')"
-                                    onmouseout="this.classList.remove('bg-primary', 'text-white'); this.classList.add('bg-white', 'text-primary')"
-                                >
-                                    Na kontaktoni
-                                </a>
-                            </li>
-
                         </ul>
                     </div>
                 </div>
@@ -187,13 +175,45 @@
 
         @yield('content')
 
-        <footer
-        class="d-flex justify-content-center align-items-center bg-primary text-light mt-5 py-4 border-top border-warning border-4"
-    >
-        <div class="container d-flex justify-content-center gap-3 text-center">
-            <p class="mb-0">
-                Copyright © {{ date('Y') }} Universiteti Publik KADRI ZEKA Gjilan
-            </p>
+        <footer class="bg-primary text-light pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <img src="https://uni-gjilan.net/wp-content/themes/kadrizeka/img/uni-gjilan_sq.png" alt="UKZ Logo" style="max-width: 300px" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <p><strong>KONTAKT</strong></p>
+                    <p>
+                        “Zija Shemsiu” nr.183. 60000 Gjilan<br />
+                        Tel: +383 280-390-112<br />
+                        Mob: +383 45-800-025<br />
+                        e-mail: info@uni-gjilan.net
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <p><strong>Linqet</strong></p>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ route('anetaret') }}" class="text-light text-decoration-none">Anëtarët e këshillit</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dokumentet') }}" class="text-light text-decoration-none">Dokumentet</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('conferences') }}" class="text-light text-decoration-none">Konferencat</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('njoftimet') }}" class="text-light text-decoration-none">Njoftimet</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 border-top pt-3">
+                <small>Copyright © 2017 Universiteti Publik KADRI ZEKA Gjilan</small>
+            </div>
         </div>
     </footer>
 

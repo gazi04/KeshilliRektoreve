@@ -83,14 +83,14 @@
             >
                 <div class="custom-form col-12 col-md-6">
                     @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
 
                     <form action="{{ route('login') }}" method="POST">
@@ -105,9 +105,9 @@
                                 required
                             />
                             @error('username')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -124,9 +124,9 @@
                                     <i class="bi bi-eye" id="togglePasswordIcon"></i>
                                 </span>
                                 @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                         </div>
@@ -136,21 +136,21 @@
                             </button>
                         </div>
                     </form>
-        </div>
-        <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById("password");
-            const toggleIcon = document.getElementById("togglePasswordIcon");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.classList.remove("bi-eye");
-                toggleIcon.classList.add("bi-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.classList.remove("bi-eye-slash");
-                toggleIcon.classList.add("bi-eye");
-            }
-        }
-        </script>
+                </div>
+                <script>
+                function togglePassword() {
+                    const passwordInput = document.getElementById("password");
+                    const toggleIcon = document.getElementById("togglePasswordIcon");
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                        toggleIcon.classList.remove("bi-eye");
+                        toggleIcon.classList.add("bi-eye-slash");
+                    } else {
+                        passwordInput.type = "password";
+                        toggleIcon.classList.remove("bi-eye-slash");
+                        toggleIcon.classList.add("bi-eye");
+                    }
+                }
+                </script>
     </body>
 </html>

@@ -123,21 +123,54 @@
 <section id="members" class="py-5 bg-white">
     <div class="container">
         <h2 class="mb-4 text-black">Anëtarët e Këshillit</h2>
-        <div class="row text-center g-4">
-            @forelse($members as $member)
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="{{ route('members.image', $member) }}" class="card-img-top" alt="{{ $member->name }}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">{{ $member->name }}</h5>
-                        <p class="card-text text-muted mb-0">{{ $member->position }}</p>
+
+        @if($members->isNotEmpty())
+        <div id="membersCarousel" class="carousel slide" data-bs-ride="carousel">
+            {{-- Carousel Indicators --}}
+            @if($members->count() > 4)
+            <div class="carousel-indicators mb-0" style="bottom: -40px;">
+                @foreach($members->chunk(4) as $chunk)
+                <button type="button" data-bs-target="#membersCarousel" data-bs-slide-to="{{ $loop->index }}"
+                    class="@if($loop->first) active @endif bg-dark"
+                    aria-current="@if($loop->first) true @else false @endif"
+                    aria-label="Slide {{ $loop->index + 1 }}"></button>
+                @endforeach
+            </div>
+            @endif
+
+            <div class="carousel-inner pb-4">
+                @foreach($members->chunk(4) as $chunk)
+                <div class="carousel-item @if($loop->first) active @endif">
+                    <div class="row text-center g-4">
+                        @foreach($chunk as $member)
+                        <div class="col-md-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <img src="{{ route('members.image', $member) }}" class="card-img-top" alt="{{ $member->name }}" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">{{ $member->name }}</h5>
+                                    <p class="card-text text-muted mb-0">{{ $member->position }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
+                @endforeach
             </div>
-            @empty
-            <p class="text-center">No members found.</p>
-            @endforelse
+            @if($members->count() > 4)
+            <button class="carousel-control-prev bg-dark bg-opacity-25 rounded" type="button" data-bs-target="#membersCarousel" data-bs-slide="prev" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); left: -25px;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next bg-dark bg-opacity-25 rounded" type="button" data-bs-target="#membersCarousel" data-bs-slide="next" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); right: -25px;">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            @endif
         </div>
+        @else
+        <p class="text-center">No members found.</p>
+        @endif
     </div>
 </section>
 
@@ -161,6 +194,7 @@
     </div>
 </section>
 @endif
+
 {{-- Documents Section --}}
 @if($documents->isNotEmpty())
 <section id="documents" class="py-5 bg-white">

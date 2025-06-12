@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $sliderNotifications = Notification::whereNotNull('imageUrl')
             ->orderBy('datetime', 'desc')
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         $mainNews = Notification::where('notificationType', 'Lajm')
@@ -30,9 +30,7 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        $members = Members::orderBy('orderNr', 'asc')
-            ->limit(4)
-            ->get();
+        $members = Members::orderBy('orderNr', 'asc')->get();
 
         $conferences = Conference::where('isActive', true)
             ->orderBy('date', 'desc')
