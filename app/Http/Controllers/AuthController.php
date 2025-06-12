@@ -14,29 +14,33 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    use AuthHelper;
+    use authhelper;
 
-    public function showLoginPage(): View
+    public function showloginpage(): view|RedirectResponse
     {
-        return view('Auth.login');
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.index');
+        }
+
+        return view('auth.login');
     }
 
-    public function login(LoginRequest $request): RedirectResponse
+    public function login(loginrequest $request): redirectresponse
     {
         try {
             $credentials = $request->only('username', 'password');
 
-            $admin = Admin::where('username', $credentials['username'])
-                ->firstOrFail();
+            $admin = admin::where('username', $credentials['username'])
+                ->firstorfail();
 
-            if (! $admin->isActive) {
+            if (! $admin->isactive) {
                 return redirect()
-                    ->route('loginPage')
-                    ->withErrors('Nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
+                    ->route('loginpage')
+                    ->witherrors('nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
             }
 
-            /** @var SessionGuard $guard */
-            $guard = Auth::guard('admin');
+            /** @var sessionguard $guard */
+            $guard = auth::guard('admin');
             if ($guard->attempt($credentials)) {
                 $request->session()->regenerate();
 
@@ -44,15 +48,15 @@ class AuthController extends Controller
             }
 
             return redirect()
-                ->route('loginPage')
-                ->withErrors('Kyçja dështoi fjalëkalimi është i pasaktë.');
-        } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withErrors('Kyçja dështoi emri i përdoruesit është i pasaktë.');
+                ->route('loginpage')
+                ->witherrors('kyçja dështoi fjalëkalimi është i pasaktë.');
+        } catch (modelnotfoundexception $e) {
+            return redirect()->back()->witherrors('kyçja dështoi emri i përdoruesit është i pasaktë.');
         }
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(request $request): redirectresponse
     {
-        return $this->logoutUser($request);
+        return $this->logoutuser($request);
     }
 }
