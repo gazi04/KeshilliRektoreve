@@ -1,27 +1,44 @@
-html, body {
-  background-color: #ffffff;
+html,
+body {
+    background-color: #ffffff;
 }
 body {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .bg-primary {
-  background-color: #0c2a61 !important;
+    background-color: #0c2a61 !important;
 }
 
-nav,
-footer {
-  height: 15vh;
+nav {
+    height: 15vh;
+}
+
+.scroll-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    user-select: none;
+}
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+.scroll-container .col-md-3 {
+    width: 25%;
+    min-width: 200px;
+    max-width: 300px;
+    display: inline-block;
+    scroll-snap-align: start;
 }
 
 footer {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 @media screen and (max-width: 995px) {
-  nav,
-  footer {
-    height: auto;
-  }
+    nav,
+    footer {
+        height: auto;
+    }
 }
-

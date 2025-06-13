@@ -125,48 +125,18 @@
         <h2 class="mb-4 text-black">Anëtarët e Këshillit</h2>
 
         @if($members->isNotEmpty())
-        <div id="membersCarousel" class="carousel slide" data-bs-ride="carousel">
-            {{-- Carousel Indicators --}}
-            @if($members->count() > 4)
-            <div class="carousel-indicators mb-0" style="bottom: -40px;">
-                @foreach($members->chunk(4) as $chunk)
-                <button type="button" data-bs-target="#membersCarousel" data-bs-slide-to="{{ $loop->index }}"
-                    class="@if($loop->first) active @endif bg-dark"
-                    aria-current="@if($loop->first) true @else false @endif"
-                    aria-label="Slide {{ $loop->index + 1 }}"></button>
-                @endforeach
-            </div>
-            @endif
-
-            <div class="carousel-inner pb-4">
-                @foreach($members->chunk(4) as $chunk)
-                <div class="carousel-item @if($loop->first) active @endif">
-                    <div class="row text-center g-4">
-                        @foreach($chunk as $member)
-                        <div class="col-md-3">
-                            <div class="card shadow-sm border-0 h-100">
-                                <img src="{{ route('members.image', $member) }}" class="card-img-top" alt="{{ $member->name }}" style="height: 200px; object-fit: cover;">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold">{{ $member->name }}</h5>
-                                    <p class="card-text text-muted mb-0">{{ $member->position }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+        <div id="membersScroll" class="scroll-container d-flex flex-nowrap overflow-x-auto pb-4" style="scroll-behavior: smooth;">
+            @foreach($members as $member)
+            <div class="col-md-3 flex-shrink-0 px-2">
+                <div class="card shadow-sm border-0 h-100">
+                    <img src="{{ route('members.image', $member) }}" class="card-img-top" alt="{{ $member->name }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ $member->name }}</h5>
+                        <p class="card-text text-muted mb-0">{{ $member->position }}</p>
                     </div>
                 </div>
-                @endforeach
             </div>
-            @if($members->count() > 4)
-            <button class="carousel-control-prev bg-dark bg-opacity-25 rounded" type="button" data-bs-target="#membersCarousel" data-bs-slide="prev" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); left: -25px;">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next bg-dark bg-opacity-25 rounded" type="button" data-bs-target="#membersCarousel" data-bs-slide="next" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%); right: -25px;">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            @endif
+            @endforeach
         </div>
         @else
         <p class="text-center">No members found.</p>
@@ -174,6 +144,103 @@
     </div>
 </section>
 
+<style>
+    .scroll-container {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        overscroll-behavior-x: contain; /* Prevent unwanted scroll chaining */
+        touch-action: pan-x; /* Allow only horizontal touch scrolling */
+        user-select: none; /* Prevent text selection during dragging */
+    }
+    .scroll-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    .scroll-container .col-md-3 {
+        width: 25%;
+        min-width: 200px;
+        max-width: 300px;
+        display: inline-block;
+        scroll-snap-align: start; /* Snap each card to start of viewport */
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const scrollContainer = document.querySelector('#membersScroll');
+        if (!scrollContainer) return;
+
+        const scrollAmount = scrollContainer.querySelector('.col-md-3').offsetWidth + 16; 
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        let isDragging = false;
+        let startPos = 0;
+        let currentScroll = 0;
+
+        function scrollToNextCard(direction) {
+            const currentScrollPos = scrollContainer.scrollLeft;
+            const targetScroll = direction === 'next'
+                ? Math.min(currentScrollPos + scrollAmount, maxScroll)
+                : Math.max(currentScrollPos - scrollAmount, 0);
+            scrollContainer.scrollTo({ left: targetScroll, behavior: 'smooth' });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                scrollToNextCard('next');
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault(); 
+                scrollToNextCard('prev');
+            }
+        });
+
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startPos = e.clientX;
+            currentScroll = scrollContainer.scrollLeft;
+            scrollContainer.style.cursor = 'grabbing';
+            scrollContainer.style.scrollSnapType = 'none'; 
+            e.preventDefault();
+        });
+
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.clientX;
+            const walk = (startPos - x) * 1.5; // Adjust scroll speed
+            let newScroll = currentScroll + walk;
+            newScroll = Math.max(0, Math.min(newScroll, maxScroll)); 
+            scrollContainer.scrollLeft = newScroll;
+        });
+
+        scrollContainer.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            scrollContainer.style.cursor = 'grab';
+            scrollContainer.style.scrollSnapType = 'x mandatory';
+            const currentScrollPos = scrollContainer.scrollLeft;
+            let nearestCard = Math.round(currentScrollPos / scrollAmount) * scrollAmount;
+            if (currentScrollPos >= maxScroll - scrollAmount / 4) {
+                nearestCard = maxScroll;
+            }
+            scrollContainer.scrollTo({ left: nearestCard, behavior: 'smooth' });
+        });
+
+        scrollContainer.addEventListener('mouseleave', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            scrollContainer.style.cursor = 'grab';
+            scrollContainer.style.scrollSnapType = 'x mandatory';
+            const currentScrollPos = scrollContainer.scrollLeft;
+            let nearestCard = Math.round(currentScrollPos / scrollAmount) * scrollAmount;
+            if (currentScrollPos >= maxScroll - scrollAmount / 4) { 
+                nearestCard = maxScroll;
+            }
+            scrollContainer.scrollTo({ left: nearestCard, behavior: 'smooth' });
+        });
+
+        scrollContainer.style.cursor = 'grab';
+    });
+</script>
 {{-- Conferences Section --}}
 @if($conferences->isNotEmpty())
 <section id="conferences" class="py-5 bg-primary text-white">

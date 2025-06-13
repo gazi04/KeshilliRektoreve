@@ -175,11 +175,11 @@
 
         @yield('content')
 
-        <footer class="bg-primary text-light pt-4 pb-2">
+        <footer class="bg-primary text-light pt-4 pb-2 border-top border-warning border-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <img src="https://uni-gjilan.net/wp-content/themes/kadrizeka/img/uni-gjilan_sq.png" alt="UKZ Logo" style="max-width: 300px" />
+                    <img src="https://uni-gjilan.net/wp-content/themes/kadrizeka/img/uni-gjilan_sq.png" alt="UKZ Logo" width="200" height="70" />
                 </div>
 
                 <div class="col-md-4 mb-3">

@@ -6,7 +6,7 @@
 <section class="py-5 bg-light">
     <div class="container">
         <h2 class="mb-4 text-dark text-center">Njoftimet</h2>
-        <div class="d-flex justify-content-center gap-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
             <button class="btn btn-outline-primary {{ $activeFilter === 'all' ? 'active' : '' }}" data-filter="all">Të Gjitha</button>
             <button class="btn btn-outline-primary {{ $activeFilter === 'Lajm' ? 'active' : '' }}" data-filter="Lajm">Lajm</button>
             <button class="btn btn-outline-primary {{ $activeFilter === 'Konkurs' ? 'active' : '' }}" data-filter="Konkurs">Konkurs</button>
