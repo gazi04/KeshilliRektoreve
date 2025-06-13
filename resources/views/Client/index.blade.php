@@ -143,27 +143,6 @@
         @endif
     </div>
 </section>
-
-<style>
-    .scroll-container {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-        overscroll-behavior-x: contain; /* Prevent unwanted scroll chaining */
-        touch-action: pan-x; /* Allow only horizontal touch scrolling */
-        user-select: none; /* Prevent text selection during dragging */
-    }
-    .scroll-container::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
-    }
-    .scroll-container .col-md-3 {
-        width: 25%;
-        min-width: 200px;
-        max-width: 300px;
-        display: inline-block;
-        scroll-snap-align: start; /* Snap each card to start of viewport */
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const scrollContainer = document.querySelector('#membersScroll');
