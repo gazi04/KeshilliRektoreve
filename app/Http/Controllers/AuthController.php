@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Models\Admin;
 use App\Traits\AuthHelper;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
@@ -14,33 +15,33 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    use authhelper;
+    use AuthHelper;
 
-    public function showloginpage(): view|RedirectResponse
+    public function showLoginPage(): View|RedirectResponse
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.index');
+            return redirect()->route('Admin.index');
         }
 
-        return view('auth.login');
+        return view('Auth.login');
     }
 
-    public function login(loginrequest $request): redirectresponse
+    public function login(LoginRequest $request): RedirectResponse
     {
         try {
             $credentials = $request->only('username', 'password');
 
-            $admin = admin::where('username', $credentials['username'])
-                ->firstorfail();
+            $admin = Admin::where('username', $credentials['username'])
+                ->firstOrFail();
 
-            if (! $admin->isactive) {
+            if (! $admin->isActive) {
                 return redirect()
-                    ->route('loginpage')
-                    ->witherrors('nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
+                    ->route('loginPage')
+                    ->witherrors('Nuk mund të kyçeni sepse llogaria jote është çaktivizuar.');
             }
 
-            /** @var sessionguard $guard */
-            $guard = auth::guard('admin');
+            /** @var SessionGuard $guard */
+            $guard = Auth::guard('admin');
             if ($guard->attempt($credentials)) {
                 $request->session()->regenerate();
 
@@ -48,15 +49,15 @@ class AuthController extends Controller
             }
 
             return redirect()
-                ->route('loginpage')
-                ->witherrors('kyçja dështoi fjalëkalimi është i pasaktë.');
+                ->route('loginPage')
+                ->witherrors('Kyçja dështoi fjalëkalimi është i pasaktë.');
         } catch (modelnotfoundexception $e) {
-            return redirect()->back()->witherrors('kyçja dështoi emri i përdoruesit është i pasaktë.');
+            return redirect()->back()->withErrors('Kyçja dështoi emri i përdoruesit është i pasaktë.');
         }
     }
 
-    public function logout(request $request): redirectresponse
+    public function logout(Request $request): RedirectResponse
     {
-        return $this->logoutuser($request);
+        return $this->logoutUser($request);
     }
 }
