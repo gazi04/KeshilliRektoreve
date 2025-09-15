@@ -19,7 +19,7 @@ class Conference extends Model
 
     public function documents()
     {
-        return $this->hasMany(Document::class, 'id');
+        return $this->hasMany(Document::class, 'conferenceId');
     }
 
     protected function casts(): array
