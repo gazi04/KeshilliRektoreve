@@ -44,7 +44,7 @@ Before you begin, ensure you have the following installed:
         APP_NAME="Your Laravel Project"
         APP_ENV=local
         APP_KEY=
-        APP_DEBUG=true
+        APP_DEBUG=true # <--- SET TO FALSE FOR PRODUCTION!
         APP_URL=http://localhost:8000
 
         LOG_CHANNEL=stack
