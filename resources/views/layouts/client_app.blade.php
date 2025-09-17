@@ -16,7 +16,6 @@
     <header class="bg-white shadow-lg fixed top-0 w-full z-50">
         <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
             <a href="{{ url('/') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://uni-gjilan.net/wp-content/themes/kadrizeka/img/uni-gjilan_sq.png" class="h-10 sm:h-12" alt="UKZ Logo" />
             </a>
             <div class="md:hidden">
                 <button id="mobileMenuBtn" class="text-primary-600 focus:outline-none p-2">

@@ -4,11 +4,9 @@
 
 @section('content')
 
-<div class="relative w-full h-80 flex items-center justify-center text-white" style="background: url('{{ asset('img/slide1.jpeg') }}') center/cover no-repeat;">
-    <div class="absolute inset-0 bg-primary-900 bg-opacity-70"></div>
-    <div class="relative container mx-auto px-4 text-center">
-        <h1 class="text-4xl lg:text-5xl font-extrabold mb-2">Universiteti Kadri Zeka</h1>
-        <p class="text-xl lg:text-2xl font-light">Rreth Nesh</p>
+<div class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Rreth Nesh</h1>
     </div>
 </div>
 
