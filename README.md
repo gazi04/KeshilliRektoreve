@@ -44,7 +44,7 @@ Before you begin, ensure you have the following installed:
         APP_NAME="Your Laravel Project"
         APP_ENV=local
         APP_KEY=
-        APP_DEBUG=true
+        APP_DEBUG=true # <--- SET TO FALSE FOR PRODUCTION!
         APP_URL=http://localhost:8000
 
         LOG_CHANNEL=stack
@@ -89,6 +89,13 @@ Before you begin, ensure you have the following installed:
     ```bash
     php artisan db:seed
     ```
+
+* **Important:** After running the seeders, a default admin user will be created with the following credentials:
+
+    - **Username:** admin
+    - **Password:** password
+
+    You can use these credentials to log in to the admin dashboard.
 
 7.  **Install Node.js dependencies (if applicable, for frontend assets):**
 
