@@ -90,6 +90,13 @@ Before you begin, ensure you have the following installed:
     php artisan db:seed
     ```
 
+* **Important:** After running the seeders, a default admin user will be created with the following credentials:
+
+    - **Username:** admin
+    - **Password:** password
+
+    You can use these credentials to log in to the admin dashboard.
+
 7.  **Install Node.js dependencies (if applicable, for frontend assets):**
 
     If your project includes frontend assets compiled with npm or Yarn, you'll need to run:
