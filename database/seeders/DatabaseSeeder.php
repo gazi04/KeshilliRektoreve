@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory()->count(30)->create();
+        Admin::factory()->create([
+            'username' => 'admin',
+        ]);
+        Admin::factory()->count(3)->create();
         Members::factory()->count(10)->create();
         Conference::factory()->count(4)->withDocuments(3)->create();
         Notification::factory()->count(8)->create();
