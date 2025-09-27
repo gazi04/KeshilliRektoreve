@@ -174,31 +174,32 @@
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="col-span-1 md:col-span-2">
-                    <img src="https://uni-gjilan.net/wp-content/themes/kadrizeka/img/uni-gjilan_sq.png" alt="UKZ Logo" class="h-16 sm:h-20 mb-4" />
+                    <h3 class="font-semibold text-white mb-4 uppercase tracking-wider">Këshilli i Rektorëve</h3>
                     <p class="text-sm">
                         Këshilli i Rektorëve të Universiteteve Publike të Kosovës (KRUPK) është një organ kolektiv që përfaqëson dhe koordinon aktivitetet e universiteteve publike në vend. Misioni ynë është të sigurojmë cilësi në arsimin e lartë, të promovojmë kërkimin shkencor dhe të kontribuojmë në zhvillimin e shoqërisë.
                     </p>
                 </div>
+
                 <div>
                     <h3 class="font-semibold text-white mb-4 uppercase tracking-wider">Kontakt</h3>
                     <p class="text-sm mb-2">
-                        “Zija Shemsiu” nr.183. 60000 Gjilan<br />
-                        Tel: +383 280-390-112<br />
-                        Mob: +383 45-800-025<br />
-                        e-mail: info@uni-gjilan.net
+                        <strong>Adresa:</strong><br>
+                        Rr. "George Bush", Nr.31, 10000 Prishtine, Republika e Kosovës
                     </p>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
+                    <p class="text-sm mb-2">
+                        <strong>Telefoni:</strong><br>
+                        +383 38 244 183 / 244 186
+                    </p>
+                    <p class="text-sm mb-2">
+                        <strong>Fax:</strong><br>
+                        +383 38 244 187
+                    </p>
+                    <p class="text-sm">
+                        <strong>Email:</strong><br>
+                        rektorati@uni-pr.edu
+                    </p>
                 </div>
+
                 <div>
                     <h3 class="font-semibold text-white mb-4 uppercase tracking-wider">Linqet</h3>
                     <ul class="space-y-2 text-sm">
@@ -217,7 +218,9 @@
                     </ul>
                 </div>
             </div>
+
             <div class="mt-8 border-t border-gray-700 pt-6 text-center text-xs text-gray-400">
+                <p class="mb-2">Punuar nga studentët e UKZ.</p>
                 <small>Copyright © 2024 Këshilli i Rektorëve. Të gjitha të drejtat e rezervuara.</small>
             </div>
         </div>
